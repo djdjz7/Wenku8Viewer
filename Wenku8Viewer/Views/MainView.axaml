@@ -1,39 +1,15 @@
-<UserControl
-    x:Class="Wenku8Viewer.Views.MainView"
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:views="clr-namespace:Wenku8Viewer.Views"
-    xmlns:vm="clr-namespace:Wenku8Viewer.ViewModels"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    x:DataType="vm:MainViewModel"
-    mc:Ignorable="d">
-    <Design.DataContext>
-        <!--
-            This only sets the DataContext for the previewer in an IDE,
-            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
-        -->
-        <vm:MainViewModel />
-    </Design.DataContext>
-    <Panel>
-
-        <StackPanel
-            MinWidth="256"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            IsVisible="{Binding !IsLoggedIn}"
-            Spacing="8">
-            <TextBlock FontSize="20" Text="登录" />
-            <TextBox Text="{Binding Username}" Watermark="账号" />
-            <TextBox
-                PasswordChar="·"
-                Text="{Binding Password}"
-                Watermark="密码" />
-            <Button HorizontalAlignment="Stretch" Command="{Binding Login}">登录</Button>
-        </StackPanel>
-
-        <views:HomeView IsVisible="{Binding IsLoggedIn}" />
-    </Panel>
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Wenku8Viewer.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Wenku8Viewer.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+  <TextBlock Text="Main" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 </UserControl>
