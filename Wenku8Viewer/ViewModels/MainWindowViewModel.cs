@@ -11,7 +11,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         NavigateToCommand = ReactiveCommand.Create<string>(NavigateTo);
     }
-    private ViewModelBase contentViewModel = new LoginViewModel();
+    private ViewModelBase contentViewModel = new MainViewModel();
     public ReactiveCommand<string, Unit> NavigateToCommand { get; }
     public ViewModelBase ContentViewModel
     {
