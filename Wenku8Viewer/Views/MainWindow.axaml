@@ -15,11 +15,11 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="vm:MainWindowViewModel"
+    Background="Transparent"
+    ExtendClientAreaToDecorationsHint="True"
+    FontFamily="Inter, Microsoft YaHei"
     Icon="/Assets/avalonia-logo.ico"
-	FontFamily="Inter, Microsoft YaHei"
-	Background="Transparent"
-	TransparencyLevelHint="AcrylicBlur"
-	ExtendClientAreaToDecorationsHint="True"
+    TransparencyLevelHint="AcrylicBlur"
     mc:Ignorable="d">
     <Window.DataContext>
         <vm:MainWindowViewModel />
@@ -30,16 +30,29 @@
         </ia:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <Panel>
-		<ExperimentalAcrylicBorder IsHitTestVisible="False">
-			<ExperimentalAcrylicBorder.Material>
-				<ExperimentalAcrylicMaterial
-					BackgroundSource="Digger"
-					TintColor="White"
-					TintOpacity="1"
-					MaterialOpacity="0.65" />
-			</ExperimentalAcrylicBorder.Material>
-		</ExperimentalAcrylicBorder>
-        <rxui:RoutedViewHost Router="{Binding Router}" Margin="0 32 0 0">
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    MaterialOpacity="0.65"
+                    TintColor="White"
+                    TintOpacity="1" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        <Button
+            Width="32"
+            Height="32"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Command="{Binding NavigateBack}">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontFamily="Segoe Fluent Icons"
+                Text="&#xe72b;" />
+        </Button>
+        <rxui:RoutedViewHost Margin="0,34,0,0" Router="{Binding Router}">
             <rxui:RoutedViewHost.ViewLocator>
                 <local:ViewLocator />
             </rxui:RoutedViewHost.ViewLocator>

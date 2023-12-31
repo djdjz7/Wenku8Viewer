@@ -1,12 +1,7 @@
-﻿using Avalonia.Controls.Templates;
-using Avalonia.Controls;
+﻿using ReactiveUI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using Wenku8Viewer.ViewModels;
-using ReactiveUI;
 using Wenku8Viewer.Views;
 
 namespace Wenku8Viewer
@@ -17,6 +12,7 @@ namespace Wenku8Viewer
         {
             LoginViewModel context => new LoginView { DataContext = context },
             MainViewModel context => new MainView { DataContext = context },
+            NovelDetailsViewModel context => new NovelDetailsView { DataContext = context },
             _ => throw new ArgumentOutOfRangeException(nameof(viewModel))
         };
     }

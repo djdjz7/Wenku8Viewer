@@ -14,14 +14,21 @@ namespace Wenku8Viewer.Models
     {
         public int NovelID { get; init; }
         public string? NovelName { get; init; }
-        public string CoverUrl { get => $"https://img.wenku8.com/image/{NovelID/1000}/{NovelID}/{NovelID}s.jpg"; }
+        public string CoverUrl { get => $"https://img.wenku8.com/image/{NovelID / 1000}/{NovelID}/{NovelID}s.jpg"; }
         public string? Author { get; set; }
         public bool IsFinished { get; set; }
         public Task<Bitmap?> ImageFromWebsite { get; }
-        public Novel (string novelName, string href)
+        public Novel(string? novelName, string? href)
         {
+            if (novelName is null || href is null)
+            {
+                ImageFromWebsite = new Task<Bitmap?>(() =>
+                {
+                    return null;
+                });
+            }
             NovelName = novelName;
-            NovelID = NovelUtils.ExtractNovelIDFromUrl(href);
+            NovelID = NovelUtils.ExtractNovelIDFromUrl(href!);
             ImageFromWebsite = ImageHelper.LoadFromWeb(new Uri(CoverUrl));
         }
     }

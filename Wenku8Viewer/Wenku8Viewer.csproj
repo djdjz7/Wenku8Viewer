@@ -22,4 +22,10 @@
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.6" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\NovelDetailsView.axaml.cs">
+      <DependentUpon>NovelDetailsView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

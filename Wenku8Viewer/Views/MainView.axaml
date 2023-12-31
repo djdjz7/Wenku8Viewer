@@ -6,6 +6,7 @@
     xmlns:i="using:Avalonia.Xaml.Interactivity"
     xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:Wenku8Viewer.Models"
     xmlns:vm="clr-namespace:Wenku8Viewer.ViewModels"
     Name="AppMainView"
     d:DesignHeight="450"
@@ -13,6 +14,45 @@
     x:DataType="vm:MainViewModel"
     Background="Transparent"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <DataTemplate x:Key="NovelTemplateWithCover" x:DataType="models:Novel">
+            <Button
+                x:CompileBindings="False"
+                Background="Transparent"
+                Command="{Binding $parent[UserControl].DataContext.NavigateToNovelDetailsCommand}"
+                CommandParameter="{Binding}">
+                <StackPanel VerticalAlignment="Center">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" SharedSizeGroup="Cover" />
+                            <RowDefinition Height="Auto" SharedSizeGroup="Title" />
+                        </Grid.RowDefinitions>
+                        <Panel VerticalAlignment="Center">
+                            <Border Width="128" Margin="0,4,0,0">
+                                <Image Effect="blur(20)" Source="{Binding #CoverFore.Source}" />
+                            </Border>
+                            <Border
+                                Width="128"
+                                Margin="0,0,0,4"
+                                ClipToBounds="True"
+                                CornerRadius="4">
+                                <Image Name="CoverFore" Source="{Binding ImageFromWebsite^}" />
+                            </Border>
+                        </Panel>
+                        <TextBlock
+                            Grid.Row="1"
+                            Width="128"
+                            Margin="0,4,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Text="{Binding NovelName}"
+                            TextTrimming="CharacterEllipsis" />
+                    </Grid>
+                </StackPanel>
+            </Button>
+        </DataTemplate>
+    </UserControl.Resources>
     <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior EventName="Loaded" SourceObject="{Binding #AppMainView}">
             <ia:InvokeCommandAction Command="{Binding OnLoaded}" />
@@ -20,38 +60,39 @@
     </i:Interaction.Behaviors>
     <ScrollViewer Margin="12,0,12,0">
         <StackPanel>
-            <TextBlock FontSize="20" Text="今日热榜" />
-            <ListBox Background="Transparent" ItemsSource="{Binding TodaysHot}">
+            <TextBlock FontSize="14" Text="{Binding Username, StringFormat=欢迎回来，{0}}" />
+            <TextBlock
+                Margin="0,8,0,0"
+                FontSize="20"
+                Text="今日热榜" />
+            <ListBox
+                Background="Transparent"
+                Grid.IsSharedSizeScope="True"
+                ItemTemplate="{StaticResource NovelTemplateWithCover}"
+                ItemsSource="{Binding TodaysHot}"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" />
+                        <StackPanel Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel VerticalAlignment="Center">
-                            <Panel>
-                                <Border Width="128" Margin="0,4,0,0">
-                                    <Image Effect="blur(20)" Source="{Binding #CoverFore.Source}" />
-                                </Border>
-                                <Border
-                                    Width="128"
-                                    Margin="0,0,0,4"
-                                    ClipToBounds="True"
-                                    CornerRadius="4">
-                                    <Image Name="CoverFore" Source="{Binding ImageFromWebsite^}" />
-                                </Border>
-                            </Panel>
-                            <TextBlock
-                                Width="128"
-                                Margin="0,4,0,0"
-                                HorizontalAlignment="Center"
-                                FontSize="12"
-                                Text="{Binding NovelName}"
-                                TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <TextBlock
+                Margin="0,8,0,0"
+                FontSize="20"
+                Text="本月热点" />
+            <ListBox
+                Background="Transparent"
+                Grid.IsSharedSizeScope="True"
+                ItemTemplate="{StaticResource NovelTemplateWithCover}"
+                ItemsSource="{Binding MonthlyHot}"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
             </ListBox>
         </StackPanel>
     </ScrollViewer>

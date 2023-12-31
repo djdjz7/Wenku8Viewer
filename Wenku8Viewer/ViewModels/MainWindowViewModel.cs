@@ -9,14 +9,10 @@ public class MainWindowViewModel : ViewModelBase, IScreen
 {
     public MainWindowViewModel()
     {
-        GoNext = ReactiveCommand.CreateFromObservable(
-                () => Router.Navigate.Execute(new LoginViewModel(this))
-            );
     }
 
     public RoutingState Router { get; } = new RoutingState();
-    public ReactiveCommand<Unit, IRoutableViewModel> GoNext { get; }
-    public ReactiveCommand<Unit, IRoutableViewModel> GoBack => Router.NavigateBack;
+    public ReactiveCommand<Unit, IRoutableViewModel> NavigateBack => Router.NavigateBack;
     public void OnStartup()
     {
         Router.Navigate.Execute(new LoginViewModel(this));
