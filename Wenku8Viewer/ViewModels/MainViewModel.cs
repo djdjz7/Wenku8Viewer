@@ -67,6 +67,6 @@ public class MainViewModel : ViewModelBase, IRoutableViewModel
 
     public void NavigateToNovelDetails(Novel novel)
     {
-        HostScreen.Router.Navigate.Execute(new NovelDetailsViewModel(HostScreen, novel));
+        HostScreen.Router.Navigate.Execute(new NovelDetailsViewModel(HostScreen, novel, browsingContext));
     }
 }

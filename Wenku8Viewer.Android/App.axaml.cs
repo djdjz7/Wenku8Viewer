@@ -2,17 +2,15 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-using Wenku8Viewer.ViewModels;
-using Wenku8Viewer.Views;
+using Wenku8Viewer.Android.ViewModels;
+using Wenku8Viewer.Android.Views;
 
-
-namespace Wenku8Viewer;
+namespace Wenku8Viewer.Android;
 
 public partial class App : Application
 {
     public override void Initialize()
     {
-        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         AvaloniaXamlLoader.Load(this);
     }
 
@@ -22,14 +20,14 @@ public partial class App : Application
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel()
+                DataContext = new MainViewModel()
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             singleViewPlatform.MainView = new MainView
             {
-                DataContext = new MainWindowViewModel()
+                DataContext = new MainViewModel()
             };
         }
 

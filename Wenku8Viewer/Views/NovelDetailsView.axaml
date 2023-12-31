@@ -1,9 +1,47 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:vm="clr-namespace:Wenku8Viewer.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Wenku8Viewer.Views.NovelDetailsView" x:DataType="vm:NovelDetailsViewModel">
-	<TextBlock Text="{Binding CurrentNovel.NovelName}"/>
+<UserControl
+    x:Class="Wenku8Viewer.Views.NovelDetailsView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Avalonia.Xaml.Interactivity"
+    xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Wenku8Viewer.ViewModels"
+    Name="AppNovelDetailsView"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:NovelDetailsViewModel"
+    mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="Loaded" SourceObject="{Binding #AppNovelDetailsView}">
+            <ia:InvokeCommandAction Command="{Binding OnLoaded}" />
+        </ia:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <Grid
+        Margin="12,0,12,0"
+        VerticalAlignment="Top"
+        ColumnDefinitions="Auto,*">
+        <Image Height="256" Source="{Binding CurrentNovel.ImageFromWebsite^}" />
+        <StackPanel Grid.Column="1" Margin="12,0,0,0">
+            <TextBlock
+                FontSize="24"
+                Text="{Binding CurrentNovel.NovelName}"
+                TextTrimming="CharacterEllipsis" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding CurrentNovel.Author}" />
+                <TextBlock Margin="4,0,0,0" Text="{Binding CurrentNovel.NovelStatus}" />
+                <TextBlock Margin="4,0,0,0" Text="{Binding CurrentNovel.LastUpdate}" />
+            </StackPanel>
+            <TextBlock Text="{Binding CurrentNovel.NovelTags}" />
+            <TextBlock
+                Margin="0,8,0,0"
+                Text="{Binding CurrentNovel.NovelDescription}"
+                TextWrapping="Wrap" />
+            <TextBlock
+                Margin="0,8,0,0"
+                FontSize="12"
+                Text="最新章节" />
+            <TextBlock Text="{Binding CurrentNovel.RecentChapter}" />
+        </StackPanel>
+    </Grid>
 </UserControl>
