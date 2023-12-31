@@ -9,14 +9,26 @@ using System.Web;
 using System.Diagnostics;
 using System.Text;
 using System;
+using Avalonia.Platform;
+using System.Reactive;
 
 namespace Wenku8Viewer.ViewModels;
 
-public class LoginViewModel : ViewModelBase
+public class LoginViewModel : ViewModelBase, IRoutableViewModel
 {
+    public LoginViewModel(IScreen screen)
+    {
+        HostScreen = screen;
+        LoginCommand = ReactiveCommand.Create(Login, this.WhenAnyValue(
+            x => x.Username,
+            x => x.Password,
+            (username, password) => !string.IsNullOrWhiteSpace(username) && !string.IsNullOrEmpty(password)
+            ));
+    }
     private HttpClient httpClient = new HttpClient();
     private string username = string.Empty;
     private string password = string.Empty;
+
     public string Username
     {
         get => username;
@@ -29,13 +41,17 @@ public class LoginViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref password, value);
     }
 
+    public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
+    public IScreen HostScreen { get; }
+    public ReactiveCommand<Unit, Unit> LoginCommand { get; }
+
     public async void Login()
     {
         var data = new Dictionary<string, string>
         {
             {"username", HttpUtility.UrlEncode(Username) },
             {"password", HttpUtility.UrlEncode(Password) },
-            {"usecookie", "0" },
+            {"usecookie", "86400" },
             {"action", "login" },
             {"submit", "%26%23160%3B%B5%C7%26%23160%3B%26%23160%3B%C2%BC%26%23160%3B" }
         };
@@ -45,7 +61,7 @@ public class LoginViewModel : ViewModelBase
         if (!responseContent.Contains("登录成功"))
             return;
         var config = Configuration.Default.WithDefaultLoader().WithDefaultCookies();
-        var address = "https://www.wenku8.net/index.php";
+        var address = "https://www.wenku8.net";
         var context = BrowsingContext.New(config);
         foreach (var header in response.Headers)
         {
@@ -57,6 +73,6 @@ public class LoginViewModel : ViewModelBase
                 }
             }
         }
-        var document = await context.OpenAsync(address);
+        HostScreen.Router.Navigate.Execute(new MainViewModel(HostScreen, context));
     }
 }

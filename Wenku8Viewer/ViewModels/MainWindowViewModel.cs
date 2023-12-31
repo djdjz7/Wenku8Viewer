@@ -5,27 +5,20 @@ using System.Reactive;
 
 namespace Wenku8Viewer.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : ViewModelBase, IScreen
 {
     public MainWindowViewModel()
     {
-        NavigateToCommand = ReactiveCommand.Create<string>(NavigateTo);
+        GoNext = ReactiveCommand.CreateFromObservable(
+                () => Router.Navigate.Execute(new LoginViewModel(this))
+            );
     }
-    private ViewModelBase contentViewModel = new LoginViewModel();
-    public ReactiveCommand<string, Unit> NavigateToCommand { get; }
-    public ViewModelBase ContentViewModel
-    {
-        get => contentViewModel;
-        set => this.RaiseAndSetIfChanged(ref contentViewModel, value);
-    }
-    public void NavigateTo(string targetViewModelName)
-    {
-        var type = Type.GetType(targetViewModelName);
-        if(type != null)
-        {
-            ContentViewModel = Activator.CreateInstance(type) as ViewModelBase;
-        }
 
-        ContentViewModel = new MainViewModel();
+    public RoutingState Router { get; } = new RoutingState();
+    public ReactiveCommand<Unit, IRoutableViewModel> GoNext { get; }
+    public ReactiveCommand<Unit, IRoutableViewModel> GoBack => Router.NavigateBack;
+    public void OnStartup()
+    {
+        Router.Navigate.Execute(new LoginViewModel(this));
     }
 }

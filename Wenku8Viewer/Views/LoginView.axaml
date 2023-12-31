@@ -8,11 +8,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="vm:LoginViewModel"
-    FontFamily="微软雅黑"
     mc:Ignorable="d">
-    <UserControl.DataContext>
-        <vm:LoginViewModel />
-    </UserControl.DataContext>
     <StackPanel
         MinWidth="256"
         HorizontalAlignment="Center"
@@ -24,10 +20,6 @@
             PasswordChar="·"
             Text="{Binding Password}"
             Watermark="密码" />
-        <Button
-            HorizontalAlignment="Stretch"
-            Command="{Binding Login}"
-            >登录</Button>
-		<Button Content="test" Command="{Binding $parent[Window].DataContext.NavigateToCommand}" CommandParameter="MainViewModel" x:CompileBindings="False"/>
+        <Button HorizontalAlignment="Stretch" Command="{Binding LoginCommand}">登录</Button>
     </StackPanel>
 </UserControl>

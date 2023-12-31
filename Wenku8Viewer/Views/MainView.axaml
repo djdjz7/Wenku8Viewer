@@ -1,15 +1,58 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:Wenku8Viewer.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Wenku8Viewer.Views.MainView"
-             x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
-  <TextBlock Text="Main" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+<UserControl
+    x:Class="Wenku8Viewer.Views.MainView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Avalonia.Xaml.Interactivity"
+    xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Wenku8Viewer.ViewModels"
+    Name="AppMainView"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:MainViewModel"
+    Background="Transparent"
+    mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="Loaded" SourceObject="{Binding #AppMainView}">
+            <ia:InvokeCommandAction Command="{Binding OnLoaded}" />
+        </ia:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <ScrollViewer Margin="12,0,12,0">
+        <StackPanel>
+            <TextBlock FontSize="20" Text="今日热榜" />
+            <ListBox Background="Transparent" ItemsSource="{Binding TodaysHot}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel VerticalAlignment="Center">
+                            <Panel>
+                                <Border Width="128" Margin="0,4,0,0">
+                                    <Image Effect="blur(20)" Source="{Binding #CoverFore.Source}" />
+                                </Border>
+                                <Border
+                                    Width="128"
+                                    Margin="0,0,0,4"
+                                    ClipToBounds="True"
+                                    CornerRadius="4">
+                                    <Image Name="CoverFore" Source="{Binding ImageFromWebsite^}" />
+                                </Border>
+                            </Panel>
+                            <TextBlock
+                                Width="128"
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="12"
+                                Text="{Binding NovelName}"
+                                TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

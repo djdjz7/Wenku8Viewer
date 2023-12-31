@@ -6,29 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wenku8Viewer.ViewModels;
+using ReactiveUI;
+using Wenku8Viewer.Views;
 
 namespace Wenku8Viewer
 {
-    public class ViewLocator : IDataTemplate
+    public class ViewLocator : ReactiveUI.IViewLocator
     {
-        public Control Build(object data)
+        public IViewFor ResolveView<T>(T viewModel, string contract = null) => viewModel switch
         {
-            var name = data.GetType().FullName!.Replace("ViewModel", "View");
-            var type = Type.GetType(name);
-
-            if (type != null)
-            {
-                return (Control)Activator.CreateInstance(type)!;
-            }
-            else
-            {
-                return new TextBlock { Text = "Not Found: " + name };
-            }
-        }
-
-        public bool Match(object data)
-        {
-            return data is ViewModelBase;
-        }
+            LoginViewModel context => new LoginView { DataContext = context },
+            MainViewModel context => new MainView { DataContext = context },
+            _ => throw new ArgumentOutOfRangeException(nameof(viewModel))
+        };
     }
 }
