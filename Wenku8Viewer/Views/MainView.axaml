@@ -14,19 +14,20 @@
     x:DataType="vm:MainViewModel"
     Background="Transparent"
     mc:Ignorable="d">
-	<UserControl.Styles>
-		<Style Selector="ListBoxItem">
-			<Setter Property="Padding" Value="0"/>
-		</Style>
-	</UserControl.Styles>
+    <UserControl.Styles>
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </UserControl.Styles>
     <UserControl.Resources>
         <DataTemplate x:Key="NovelTemplateWithCover" x:DataType="models:Novel">
-            <Button Margin="0"
+            <Button
+                Margin="0"
                 x:CompileBindings="False"
                 Background="Transparent"
                 Command="{Binding $parent[UserControl].DataContext.NavigateToNovelDetailsCommand}"
                 CommandParameter="{Binding}">
-                <StackPanel VerticalAlignment="Center" Margin="12">
+                <StackPanel Margin="12" VerticalAlignment="Center">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" SharedSizeGroup="Cover" />
@@ -63,42 +64,56 @@
             <ia:InvokeCommandAction Command="{Binding OnLoaded}" />
         </ia:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    <ScrollViewer Margin="12,0,12,0">
-        <StackPanel>
-            <TextBlock FontSize="14" Text="{Binding Username, StringFormat=欢迎回来，{0}}" />
+    <Grid Margin="12,0,12,0" RowDefinitions="Auto *">
+        <TextBlock FontSize="14" Text="{Binding Username, StringFormat=欢迎回来，{0}}" />
+        <Button
+            Width="32"
+            Height="32"
+            HorizontalAlignment="Right"
+            Command="{Binding NavigateToSearch}">
             <TextBlock
-                Margin="0,8,0,0"
-                FontSize="20"
-                Text="今日热榜" />
-            <ListBox
-                Background="Transparent"
-                Grid.IsSharedSizeScope="True"
-                ItemTemplate="{StaticResource NovelTemplateWithCover}"
-                ItemsSource="{Binding TodaysHot}"
-                ScrollViewer.HorizontalScrollBarVisibility="Visible">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontFamily="Segoe Fluent Icons"
+                Text="&#xe721;" />
+        </Button>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <TextBlock
+                    Margin="0,8,0,0"
+                    FontSize="20"
+                    Text="今日热榜" />
+                <ListBox
+                    Background="Transparent"
+                    Grid.IsSharedSizeScope="True"
+                    ItemTemplate="{StaticResource NovelTemplateWithCover}"
+                    ItemsSource="{Binding TodaysHot}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
 
-            <TextBlock
-                Margin="0,8,0,0"
-                FontSize="20"
-                Text="本月热点" />
-            <ListBox
-                Background="Transparent"
-                Grid.IsSharedSizeScope="True"
-                ItemTemplate="{StaticResource NovelTemplateWithCover}"
-                ItemsSource="{Binding MonthlyHot}"
-                ScrollViewer.HorizontalScrollBarVisibility="Visible">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
-        </StackPanel>
-    </ScrollViewer>
+                <TextBlock
+                    Margin="0,8,0,0"
+                    FontSize="20"
+                    Text="本月热点" />
+                <ListBox
+                    Background="Transparent"
+                    Grid.IsSharedSizeScope="True"
+                    ItemTemplate="{StaticResource NovelTemplateWithCover}"
+                    ItemsSource="{Binding MonthlyHot}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+
 </UserControl>

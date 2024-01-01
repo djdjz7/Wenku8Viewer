@@ -15,11 +15,19 @@
         VerticalAlignment="Center"
         Spacing="8">
         <TextBlock FontSize="20" Text="登录"/>
-        <TextBox Text="{Binding Username}" Watermark="账号" />
+        <TextBox Text="{Binding Username}" Watermark="账号">
+			<TextBox.KeyBindings>
+				<KeyBinding Command="{Binding LoginCommand}" Gesture="Enter"/>
+			</TextBox.KeyBindings>
+		</TextBox>
         <TextBox
             PasswordChar="·"
             Text="{Binding Password}"
-            Watermark="密码" />
+            Watermark="密码">
+			<TextBox.KeyBindings>
+				<KeyBinding Command="{Binding LoginCommand}" Gesture="Enter"/>
+			</TextBox.KeyBindings>
+		</TextBox>
         <Button HorizontalAlignment="Stretch" Command="{Binding LoginCommand}">登录</Button>
     </StackPanel>
 </UserControl>

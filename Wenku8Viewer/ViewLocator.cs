@@ -13,6 +13,7 @@ namespace Wenku8Viewer
             LoginViewModel context => new LoginView { DataContext = context },
             MainViewModel context => new MainView { DataContext = context },
             NovelDetailsViewModel context => new NovelDetailsView { DataContext = context },
+            SearchViewModel context => new SearchView { DataContext = context },
             _ => throw new ArgumentOutOfRangeException(nameof(viewModel))
         };
     }

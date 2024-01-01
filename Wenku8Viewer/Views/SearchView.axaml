@@ -1,0 +1,124 @@
+<UserControl
+    x:Class="Wenku8Viewer.Views.SearchView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:Wenku8Viewer.Models"
+    xmlns:vm="clr-namespace:Wenku8Viewer.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:SearchViewModel"
+    mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </UserControl.Styles>
+    <Grid Margin="12,0,12,0" RowDefinitions="Auto *">
+        <Grid Grid.Row="0" ColumnDefinitions="Auto * Auto">
+            <ComboBox SelectedIndex="{Binding SearchMethod}">
+                <ComboBoxItem>小说标题</ComboBoxItem>
+                <ComboBoxItem>作者名称</ComboBoxItem>
+            </ComboBox>
+            <TextBox
+                Grid.Column="1"
+                Margin="4,0,0,0"
+                Text="{Binding SearchContent}">
+                <TextBox.KeyBindings>
+                    <KeyBinding Command="{Binding SearchCommand}" Gesture="Enter" />
+                </TextBox.KeyBindings>
+            </TextBox>
+            <Button
+                Grid.Column="2"
+                Margin="4,0,0,0"
+                VerticalAlignment="Stretch"
+                Command="{Binding SearchCommand}">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe Fluent Icons"
+                    Text="&#xe721;" />
+            </Button>
+        </Grid>
+        <ListBox
+            Grid.Row="1"
+            Margin="0,4,0,0"
+            Background="Transparent"
+            ItemsSource="{Binding SearchResults}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="models:Novel">
+                    <Button Background="Transparent">
+                        <Grid ColumnDefinitions="Auto *">
+                            <Panel VerticalAlignment="Center">
+                                <Border Width="128" Margin="0,4,0,0">
+                                    <Image Effect="blur(20)" Source="{Binding #CoverFore.Source}" />
+                                </Border>
+                                <Border
+                                    Width="128"
+                                    Margin="0,0,0,4"
+                                    ClipToBounds="True"
+                                    CornerRadius="4">
+                                    <Image Name="CoverFore" Source="{Binding ImageFromWebsite^}" />
+                                </Border>
+                            </Panel>
+                            <StackPanel Grid.Column="1" Margin="4,0,0,0">
+                                <TextBlock
+                                    FontSize="20"
+                                    Text="{Binding NovelName}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe Fluent Icons"
+                                        Text="&#xe77b;" />
+                                    <TextBlock
+                                        Margin="2,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Author}" />
+                                    <TextBlock
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe Fluent Icons"
+                                        Text="&#xe946;" />
+                                    <TextBlock
+                                        Margin="2,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding NovelStatus}" />
+                                    <TextBlock
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe Fluent Icons"
+                                        Text="&#xec92;" />
+                                    <TextBlock
+                                        Margin="2,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding LastUpdate}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe Fluent Icons"
+                                        Text="&#xe8ec;" />
+                                    <TextBlock
+                                        Margin="2,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding NovelTags}" />
+                                </StackPanel>
+                                <TextBlock
+                                    Margin="0,8,0,0"
+                                    Text="{Binding NovelDescription}"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+                    </Button>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

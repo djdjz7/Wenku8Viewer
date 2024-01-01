@@ -69,4 +69,9 @@ public class MainViewModel : ViewModelBase, IRoutableViewModel
     {
         HostScreen.Router.Navigate.Execute(new NovelDetailsViewModel(HostScreen, novel, browsingContext));
     }
+
+    public void NavigateToSearch()
+    {
+        HostScreen.Router.Navigate.Execute(new SearchViewModel(HostScreen, browsingContext));
+    }
 }

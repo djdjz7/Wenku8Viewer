@@ -10,8 +10,10 @@ namespace Wenku8Viewer.Utils
 {
     public static class NovelUtils
     {
-        public static int ExtractNovelIDFromUrl(string url)
+        public static int ExtractNovelIDFromUrl(string? url)
         {
+            if (url is null)
+                return 0;
             return int.Parse(url.Split('/', StringSplitOptions.RemoveEmptyEntries)[1][0..^4]);
         }
         public async static Task<Novel> GetNovelDetails(IBrowsingContext browsingContext, int novelID)
