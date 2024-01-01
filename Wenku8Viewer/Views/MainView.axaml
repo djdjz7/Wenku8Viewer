@@ -14,14 +14,19 @@
     x:DataType="vm:MainViewModel"
     Background="Transparent"
     mc:Ignorable="d">
+	<UserControl.Styles>
+		<Style Selector="ListBoxItem">
+			<Setter Property="Padding" Value="0"/>
+		</Style>
+	</UserControl.Styles>
     <UserControl.Resources>
         <DataTemplate x:Key="NovelTemplateWithCover" x:DataType="models:Novel">
-            <Button
+            <Button Margin="0"
                 x:CompileBindings="False"
                 Background="Transparent"
                 Command="{Binding $parent[UserControl].DataContext.NavigateToNovelDetailsCommand}"
                 CommandParameter="{Binding}">
-                <StackPanel VerticalAlignment="Center">
+                <StackPanel VerticalAlignment="Center" Margin="12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" SharedSizeGroup="Cover" />

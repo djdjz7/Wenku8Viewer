@@ -21,18 +21,63 @@
         Margin="12,0,12,0"
         VerticalAlignment="Top"
         ColumnDefinitions="Auto,*">
-        <Image Height="256" Source="{Binding CurrentNovel.ImageFromWebsite^}" />
+        <Image
+            Height="256"
+            Margin="0,4,0,0"
+            Effect="blur(20)"
+            Source="{Binding #CoverFore.Source}">
+            <Image.RenderTransform>
+                <ScaleTransform ScaleX=".98" />
+            </Image.RenderTransform>
+        </Image>
+        <Image
+            Name="CoverFore"
+            Height="256"
+            Margin="0,0,0,4"
+            Source="{Binding CurrentNovel.ImageFromWebsite^}" />
         <StackPanel Grid.Column="1" Margin="12,0,0,0">
             <TextBlock
                 FontSize="24"
                 Text="{Binding CurrentNovel.NovelName}"
                 TextTrimming="CharacterEllipsis" />
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding CurrentNovel.Author}" />
-                <TextBlock Margin="4,0,0,0" Text="{Binding CurrentNovel.NovelStatus}" />
-                <TextBlock Margin="4,0,0,0" Text="{Binding CurrentNovel.LastUpdate}" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe Fluent Icons"
+                    Text="&#xe77b;" />
+                <TextBlock
+                    Margin="2,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding CurrentNovel.Author}" />
+                <TextBlock
+                    Margin="8,0,0,0"
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe Fluent Icons"
+                    Text="&#xe946;" />
+                <TextBlock
+                    Margin="2,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding CurrentNovel.NovelStatus}" />
+                <TextBlock
+                    Margin="8,0,0,0"
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe Fluent Icons"
+                    Text="&#xec92;" />
+                <TextBlock
+                    Margin="2,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding CurrentNovel.LastUpdate}" />
             </StackPanel>
-            <TextBlock Text="{Binding CurrentNovel.NovelTags}" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe Fluent Icons"
+                    Text="&#xe8ec;" />
+                <TextBlock
+                    Margin="2,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding CurrentNovel.NovelTags}" />
+            </StackPanel>
             <TextBlock
                 Margin="0,8,0,0"
                 Text="{Binding CurrentNovel.NovelDescription}"
