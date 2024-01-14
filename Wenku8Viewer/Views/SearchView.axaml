@@ -48,7 +48,7 @@
             ItemsSource="{Binding SearchResults}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel />
+                    <UniformGrid Columns="2" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>

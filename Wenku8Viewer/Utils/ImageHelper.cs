@@ -11,6 +11,7 @@ namespace Wenku8Viewer.Utils;
 
 public static class ImageHelper
 {
+    private static HttpClient _httpClient = new HttpClient();
     public static Bitmap LoadFromResource(Uri resourceUri)
     {
         return new Bitmap(AssetLoader.Open(resourceUri));
@@ -18,10 +19,9 @@ public static class ImageHelper
 
     public static async Task<Bitmap?> LoadFromWeb(Uri url)
     {
-        using var httpClient = new HttpClient();
         try
         {
-            var response = await httpClient.GetAsync(url);
+            var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsByteArrayAsync();
             return new Bitmap(new MemoryStream(data));

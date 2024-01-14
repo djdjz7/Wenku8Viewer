@@ -65,7 +65,7 @@
         </ia:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <Grid Margin="12,0,12,0" RowDefinitions="Auto *">
-        <TextBlock FontSize="14" Text="{Binding Username, StringFormat=欢迎回来，{0}}" />
+        <TextBlock FontSize="14" Text="{Binding Username, StringFormat=欢迎回来，{0}}" VerticalAlignment="Center"/>
         <Button
             Width="32"
             Height="32"

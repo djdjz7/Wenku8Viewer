@@ -73,6 +73,6 @@ public class LoginViewModel : ViewModelBase, IRoutableViewModel
                 }
             }
         }
-        HostScreen.Router.Navigate.Execute(new MainViewModel(HostScreen, context, true));
+        HostScreen.Router.Navigate.Execute(new MainViewModel(HostScreen, context));
     }
 }
