@@ -17,19 +17,19 @@ public class NovelDetailsViewModel: ViewModelBase, IRoutableViewModel
     {
         HostScreen = screen;
         CurrentNovel = novel;
-        browsingContext = context;
+        _browsingContext = context;
     }
-    private Novel currentNovel;
-    private IBrowsingContext browsingContext;
+    private Novel _currentNovel;
+    private IBrowsingContext _browsingContext;
     public Novel CurrentNovel
     {
-        get => currentNovel;
-        set => this.RaiseAndSetIfChanged(ref currentNovel, value);
+        get => _currentNovel;
+        set => this.RaiseAndSetIfChanged(ref _currentNovel, value);
     }
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public IScreen HostScreen { get; }
     public async void OnLoaded()
     {
-        CurrentNovel = await NovelUtils.GetNovelDetails(browsingContext, CurrentNovel.NovelID);
+        CurrentNovel = await NovelUtils.GetNovelDetails(_browsingContext, CurrentNovel.NovelID);
     }
 }

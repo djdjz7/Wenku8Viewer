@@ -10,31 +10,31 @@ namespace Wenku8Viewer.ViewModels;
 
 public class MainViewModel : ViewModelBase, IRoutableViewModel
 {
-    private bool isFirstLoad = true;
+    private bool _isFirstLoad = true;
     public MainViewModel(IScreen screen, IBrowsingContext context)
     {
         HostScreen = screen;
-        browsingContext = context;
+        _browsingContext = context;
         NavigateToNovelDetailsCommand = ReactiveCommand.Create<Novel>(NavigateToNovelDetails);
     }
-    private IBrowsingContext browsingContext;
-    private ObservableCollection<Novel> todaysHot = new();
-    private ObservableCollection<Novel> monthlyHot = new();
-    private string username = string.Empty;
+    private IBrowsingContext _browsingContext;
+    private ObservableCollection<Novel> _todaysHot = new();
+    private ObservableCollection<Novel> _monthlyHot = new();
+    private string _username = string.Empty;
     public ObservableCollection<Novel> TodaysHot
     {
-        get => todaysHot;
-        set => this.RaiseAndSetIfChanged(ref todaysHot, value);
+        get => _todaysHot;
+        set => this.RaiseAndSetIfChanged(ref _todaysHot, value);
     }
     public ObservableCollection<Novel> MonthlyHot
     {
-        get => monthlyHot;
-        set => this.RaiseAndSetIfChanged(ref monthlyHot, value);
+        get => _monthlyHot;
+        set => this.RaiseAndSetIfChanged(ref _monthlyHot, value);
     }
     public string Username
     {
-        get => username;
-        set => this.RaiseAndSetIfChanged(ref username, value);
+        get => _username;
+        set => this.RaiseAndSetIfChanged(ref _username, value);
     }
 
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
@@ -42,9 +42,9 @@ public class MainViewModel : ViewModelBase, IRoutableViewModel
     public ReactiveCommand<Novel, Unit> NavigateToNovelDetailsCommand { get; set; }
     public async void OnLoaded()
     {
-        if (!isFirstLoad)
+        if (!_isFirstLoad)
             return;
-        var indexDocument = await browsingContext.OpenAsync("https://www.wenku8.net/index.php");
+        var indexDocument = await _browsingContext.OpenAsync("https://www.wenku8.net/index.php");
         Username = indexDocument.QuerySelector("div.main.m_top div.fl")?.TextContent[10..^7] ?? string.Empty;
         var rightBlocks = indexDocument.QuerySelectorAll("div#right .block .blockcontent ul.ultop");
         TodaysHot = new(rightBlocks[0].Children.Select(x =>
@@ -60,16 +60,16 @@ public class MainViewModel : ViewModelBase, IRoutableViewModel
             return new Novel(anchor?.Attributes["title"]?.Value,
                              anchor?.Attributes["href"]?.Value);
         }));
-        isFirstLoad = false;
+        _isFirstLoad = false;
     }
 
     public void NavigateToNovelDetails(Novel novel)
     {
-        HostScreen.Router.Navigate.Execute(new NovelDetailsViewModel(HostScreen, novel, browsingContext));
+        HostScreen.Router.Navigate.Execute(new NovelDetailsViewModel(HostScreen, novel, _browsingContext));
     }
 
     public void NavigateToSearch()
     {
-        HostScreen.Router.Navigate.Execute(new SearchViewModel(HostScreen, browsingContext));
+        HostScreen.Router.Navigate.Execute(new SearchViewModel(HostScreen, _browsingContext));
     }
 }

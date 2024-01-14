@@ -19,26 +19,31 @@ public class LoginViewModel : ViewModelBase, IRoutableViewModel
     public LoginViewModel(IScreen screen)
     {
         HostScreen = screen;
-        LoginCommand = ReactiveCommand.Create(Login, this.WhenAnyValue(
-            x => x.Username,
-            x => x.Password,
-            (username, password) => !string.IsNullOrWhiteSpace(username) && !string.IsNullOrEmpty(password)
-            ));
+        LoginCommand = ReactiveCommand.Create(
+            Login,
+            this.WhenAnyValue(
+                x => x.Username,
+                x => x.Password,
+                (username, password) =>
+                    !string.IsNullOrWhiteSpace(username) && !string.IsNullOrEmpty(password)
+            )
+        );
     }
-    private HttpClient httpClient = new HttpClient();
-    private string username = string.Empty;
-    private string password = string.Empty;
+
+    private HttpClient _httpClient = new HttpClient();
+    private string _username = string.Empty;
+    private string _password = string.Empty;
 
     public string Username
     {
-        get => username;
-        set => this.RaiseAndSetIfChanged(ref username, value);
+        get => _username;
+        set => this.RaiseAndSetIfChanged(ref _username, value);
     }
 
     public string Password
     {
-        get => password;
-        set => this.RaiseAndSetIfChanged(ref password, value);
+        get => _password;
+        set => this.RaiseAndSetIfChanged(ref _password, value);
     }
 
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
@@ -49,15 +54,20 @@ public class LoginViewModel : ViewModelBase, IRoutableViewModel
     {
         var data = new Dictionary<string, string>
         {
-            {"username", HttpUtility.UrlEncode(Username) },
-            {"password", HttpUtility.UrlEncode(Password) },
-            {"usecookie", "86400" },
-            {"action", "login" },
-            {"submit", "%26%23160%3B%B5%C7%26%23160%3B%26%23160%3B%C2%BC%26%23160%3B" }
+            { "username", HttpUtility.UrlEncode(Username) },
+            { "password", HttpUtility.UrlEncode(Password) },
+            { "usecookie", "86400" },
+            { "action", "login" },
+            { "submit", "%26%23160%3B%B5%C7%26%23160%3B%26%23160%3B%C2%BC%26%23160%3B" }
         };
-        var response = await httpClient.PostAsync("https://www.wenku8.net/login.php?do=submit", new FormUrlEncodedContent(data));
+        var response = await _httpClient.PostAsync(
+            "https://www.wenku8.net/login.php?do=submit",
+            new FormUrlEncodedContent(data)
+        );
 
-        var responseContent = Encoding.GetEncoding("gb2312").GetString(await response.Content.ReadAsByteArrayAsync());
+        var responseContent = Encoding
+            .GetEncoding("gb2312")
+            .GetString(await response.Content.ReadAsByteArrayAsync());
         if (!responseContent.Contains("登录成功"))
             return;
         var config = Configuration.Default.WithDefaultLoader().WithDefaultCookies();
