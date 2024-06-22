@@ -1,13 +1,10 @@
 ﻿using AngleSharp;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using System.Web;
 using Wenku8Viewer.Models;
 using Wenku8Viewer.Utils;
@@ -29,8 +26,9 @@ public class SearchViewModel : ViewModelBase, IRoutableViewModel
                     (method == 0 || method == 1) && !string.IsNullOrWhiteSpace(content)
             )
         );
+        NavigateToNovelDetailsCommand = ReactiveCommand.Create<Novel>(NavigateToNovelDetails);
     }
-
+    private Encoding _gb2312 = Encoding.GetEncoding("gb2312");
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public IScreen HostScreen { get; }
     private IBrowsingContext _browsingContext;
@@ -53,13 +51,14 @@ public class SearchViewModel : ViewModelBase, IRoutableViewModel
         set => this.RaiseAndSetIfChanged(ref _searchResults, value);
     }
     public ReactiveCommand<Unit, Unit> SearchCommand { get; }
+    public ReactiveCommand<Novel, Unit> NavigateToNovelDetailsCommand { get; set; }
 
     public async void Search()
     {
         var searchPageDocument = await _browsingContext.OpenAsync(
             "https://www.wenku8.net/modules/article/search.php?"
                 + $"searchtype={(SearchMethod == 0 ? "articlename" : "author")}"
-                + $"&searchkey={HttpUtility.UrlEncode(SearchContent)}"
+                + $"&searchkey={HttpUtility.UrlEncode(SearchContent, _gb2312)}"
         );
         var allResults = searchPageDocument.QuerySelectorAll(
             "div#centerm div#content table.grid tbody tr td > div"
@@ -91,5 +90,10 @@ public class SearchViewModel : ViewModelBase, IRoutableViewModel
                 };
             })
         );
+    }
+
+    public void NavigateToNovelDetails(Novel novel)
+    {
+        HostScreen.Router.Navigate.Execute(new NovelDetailsViewModel(HostScreen, novel, _browsingContext));
     }
 }

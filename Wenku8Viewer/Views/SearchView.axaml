@@ -14,6 +14,12 @@
         <Style Selector="ListBoxItem">
             <Setter Property="Padding" Value="0" />
         </Style>
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
     </UserControl.Styles>
     <Grid Margin="12,0,12,0" RowDefinitions="Auto *">
         <Grid Grid.Row="0" ColumnDefinitions="Auto * Auto">
@@ -48,12 +54,18 @@
             ItemsSource="{Binding SearchResults}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="2" />
+                    <UniformGrid VerticalAlignment="Top" Columns="2" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="models:Novel">
-                    <Button Background="Transparent">
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:CompileBindings="False"
+                        Background="Transparent"
+                        Command="{Binding $parent[UserControl].DataContext.NavigateToNovelDetailsCommand}"
+                        CommandParameter="{Binding}">
                         <Grid ColumnDefinitions="Auto *">
                             <Panel VerticalAlignment="Center">
                                 <Border Width="128" Margin="0,4,0,0">
