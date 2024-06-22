@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AngleSharp;
 using Wenku8Viewer.Models;
 
 namespace Wenku8Viewer.Utils
 {
-    public static class NovelUtils
+    public static partial class NovelUtils
     {
+        [GeneratedRegex(@".*轻小说文库\(http:\/\/.*\n")]
+        public static partial Regex GetNovelContentReplaceRegex();
+
         public static int ExtractNovelIDFromUrl(string? url)
         {
             if (url is null)
@@ -93,7 +97,7 @@ namespace Wenku8Viewer.Utils
                     if (tempChapterList is null)
                         tempChapterList = new List<Chapter>();
                     var text = td.TextContent.Trim();
-                    if(string.IsNullOrEmpty(text))
+                    if (string.IsNullOrEmpty(text))
                         continue;
                     tempChapterList.Add(
                         new Chapter()

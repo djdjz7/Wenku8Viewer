@@ -1,0 +1,26 @@
+<UserControl
+    x:Class="Wenku8Viewer.Views.ReaderView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Avalonia.Xaml.Interactivity"
+    xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Wenku8Viewer.ViewModels"
+    Name="AppReaderView"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:ReaderViewModel"
+    mc:Ignorable="d">
+	<i:Interaction.Behaviors>
+		<ia:EventTriggerBehavior EventName="Loaded" SourceObject="{Binding #AppReaderView}">
+			<ia:InvokeCommandAction Command="{Binding OnLoaded}" />
+		</ia:EventTriggerBehavior>
+	</i:Interaction.Behaviors>
+	<ScrollViewer MaxWidth="1000" HorizontalAlignment="Center">
+		<StackPanel>
+			<TextBlock FontSize="24" Text="{Binding ChapterTitle}" />
+			<TextBlock Text="{Binding ChapterContent}" />
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>
