@@ -15,10 +15,10 @@
     Background="Transparent"
     mc:Ignorable="d">
     <UserControl.Styles>
-        <Style Selector="ListBoxItem">
-            <Setter Property="Padding" Value="0" />
-        </Style>
-    </UserControl.Styles>
+		<Style Selector="ListBoxItem">
+			<Setter Property="Padding" Value="0" />
+		</Style>
+	</UserControl.Styles>
     <UserControl.Resources>
         <DataTemplate x:Key="NovelTemplateWithCover" x:DataType="models:Novel">
             <Button
@@ -65,7 +65,10 @@
         </ia:EventTriggerBehavior>
     </i:Interaction.Behaviors>
     <Grid Margin="12,0,12,0" RowDefinitions="Auto *">
-        <TextBlock FontSize="14" Text="{Binding Username, StringFormat=欢迎回来，{0}}" VerticalAlignment="Center"/>
+        <TextBlock
+            VerticalAlignment="Center"
+            FontSize="14"
+            Text="{Binding Username, StringFormat=欢迎回来，{0}}" />
         <Button
             Width="32"
             Height="32"
@@ -84,7 +87,6 @@
                     FontSize="20"
                     Text="今日热榜" />
                 <ListBox
-                    Background="Transparent"
                     Grid.IsSharedSizeScope="True"
                     ItemTemplate="{StaticResource NovelTemplateWithCover}"
                     ItemsSource="{Binding TodaysHot}"
@@ -101,7 +103,6 @@
                     FontSize="20"
                     Text="本月热点" />
                 <ListBox
-                    Background="Transparent"
                     Grid.IsSharedSizeScope="True"
                     ItemTemplate="{StaticResource NovelTemplateWithCover}"
                     ItemsSource="{Binding MonthlyHot}"

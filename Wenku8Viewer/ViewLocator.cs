@@ -14,6 +14,7 @@ namespace Wenku8Viewer
             MainViewModel context => new MainView { DataContext = context },
             NovelDetailsViewModel context => new NovelDetailsView { DataContext = context },
             SearchViewModel context => new SearchView { DataContext = context },
+            ReaderViewModel context => new ReaderView { DataContext = context },
             _ => throw new ArgumentOutOfRangeException(nameof(viewModel))
         };
     }

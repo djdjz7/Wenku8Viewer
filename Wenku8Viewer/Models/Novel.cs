@@ -22,6 +22,7 @@ namespace Wenku8Viewer.Models
         public string? NovelDescription { get; set; }
         public DateOnly? LastUpdate { get; set; }
         public Task<Bitmap?> ImageFromWebsite { get; }
+        public Volume[]? Volumes { get; set; }
         public Novel(string? novelName, string? href)
         {
             if (novelName is null || href is null)
