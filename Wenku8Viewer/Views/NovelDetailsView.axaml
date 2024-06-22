@@ -15,15 +15,15 @@
     x:DataType="vm:NovelDetailsViewModel"
     mc:Ignorable="d">
     <UserControl.Styles>
-		<Style Selector="ListBoxItem">
-			<Setter Property="Padding" Value="0" />
-		</Style>
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0" />
+        </Style>
         <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="Background" Value="Transparent" />
         </Style>
-		<Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-			<Setter Property="Background" Value="Transparent" />
-		</Style>
+        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
     </UserControl.Styles>
     <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior EventName="Loaded" SourceObject="{Binding #AppNovelDetailsView}">
@@ -125,7 +125,7 @@
         <TabControl Grid.Row="1">
             <TabItem Header="章节列表">
                 <ScrollViewer>
-                    <ListBox ItemsSource="{Binding NovelVolumeList^}">
+                    <ListBox ItemsSource="{Binding NovelVolumeList}">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="models:Volume">
                                 <StackPanel>
@@ -141,7 +141,7 @@
                                                     HorizontalAlignment="Stretch"
                                                     x:CompileBindings="False"
                                                     Background="Transparent"
-                                                    Command="{Binding $parent[UserControl].DataContext.ReadChapterCommand}"
+                                                    Command="{Binding $parent[UserControl].DataContext.OpenChapterReaderCommand}"
                                                     CommandParameter="{Binding Url}"
                                                     Content="{Binding Title}" />
                                             </DataTemplate>

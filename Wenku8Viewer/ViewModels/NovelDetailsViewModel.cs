@@ -19,11 +19,11 @@ public class NovelDetailsViewModel: ViewModelBase, IRoutableViewModel
         HostScreen = screen;
         CurrentNovel = novel;
         _browsingContext = context;
-        ReadChapterCommand = ReactiveCommand.Create<string>(ReadChapter);
+        OpenChapterReaderCommand = ReactiveCommand.Create<string>(OpenChapterReader);
     }
     private Novel _currentNovel = null!;
     private IBrowsingContext _browsingContext;
-    public ReactiveCommand<string, Unit> ReadChapterCommand { get; set; }
+    public ReactiveCommand<string, Unit> OpenChapterReaderCommand { get; set; }
     public Novel CurrentNovel
     {
         get => _currentNovel;
@@ -31,18 +31,19 @@ public class NovelDetailsViewModel: ViewModelBase, IRoutableViewModel
     }
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public IScreen HostScreen { get; }
-    public Task<List<Volume>> NovelVolumeList => GetVolumesAsync();
+    private List<Volume>? _novelVolumeList;
+    public List<Volume> NovelVolumeList
+    {
+        get => _novelVolumeList??= new List<Volume>();
+        set => this.RaiseAndSetIfChanged(ref _novelVolumeList, value);
+    }
     public async void OnLoaded()
     {
         CurrentNovel = await NovelUtils.GetNovelDetails(_browsingContext, CurrentNovel.NovelID);
+        NovelVolumeList = await NovelUtils.GetVolumesAsync(_browsingContext, CurrentNovel.NovelID);
     }
 
-    public async Task<List<Volume>> GetVolumesAsync()
-    {
-        return await NovelUtils.GetVolumesAsync(_browsingContext, CurrentNovel.NovelID);
-    }
-
-    public void ReadChapter(string chapterUrl)
+    public void OpenChapterReader(string chapterUrl)
     {
         var novelID = CurrentNovel.NovelID;
         HostScreen.Router.Navigate.Execute(new ReaderViewModel(HostScreen, _browsingContext, $"https://www.wenku8.net/novel/{novelID / 1000}/{novelID}/{chapterUrl}" ));
