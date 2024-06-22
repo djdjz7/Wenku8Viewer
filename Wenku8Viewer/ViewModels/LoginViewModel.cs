@@ -11,6 +11,8 @@ using System.Text;
 using System;
 using Avalonia.Platform;
 using System.Reactive;
+using System.IO;
+using System.Text.Json;
 
 namespace Wenku8Viewer.ViewModels;
 
@@ -84,5 +86,24 @@ public class LoginViewModel : ViewModelBase, IRoutableViewModel
             }
         }
         HostScreen.Router.Navigate.Execute(new MainViewModel(HostScreen, context));
+    }
+
+    public void OnLoaded()
+    {
+        if (!File.Exists("credentials.json"))
+            return;
+        var content = File.ReadAllText("credentials.json");
+        var credentials = JsonSerializer.Deserialize<Credential>(content);
+        if(string.IsNullOrEmpty(credentials?.Username) && string.IsNullOrEmpty(credentials?.Password))
+            return;
+        Username = credentials.Username!;
+        Password = credentials.Password!;
+        Login();
+    }
+
+    public class Credential
+    {
+        public string? Username { get; set; }
+        public string? Password { get; set; }
     }
 }
