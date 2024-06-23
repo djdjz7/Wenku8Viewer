@@ -21,7 +21,7 @@
     <Panel>
         <ScrollViewer
             MaxWidth="1000"
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Stretch"
             Offset="{Binding ScrollOffset, Mode=OneWay}">
             <Border
                 Margin="12"
@@ -116,9 +116,9 @@
                                     FontSize="16"
                                     Text="字体" />
                                 <ComboBox FontFamily="{Binding FontType, Converter={StaticResource IntToFontFamilyConverter}}" Margin="0,4,0,0" HorizontalAlignment="Stretch" SelectedIndex="{Binding FontType}">
-                                    <ComboBoxItem TextElement.FontFamily="{StaticResource SourceHanSerifSC}">衬线</ComboBoxItem>
                                     <ComboBoxItem TextElement.FontFamily="Inter, Microsoft YaHei">非衬线</ComboBoxItem>
-                                </ComboBox>
+									<ComboBoxItem TextElement.FontFamily="{StaticResource SourceHanSerifSC}">衬线</ComboBoxItem>
+								</ComboBox>
                                 <TextBlock
                                     Margin="0,2,0,0"
                                     FontSize="16"

@@ -15,7 +15,7 @@ public class IntToFontFamilyConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is int x && x == 0)
+        if (value is int x && x == 1)
         {
             var sourceHanSerifCN = Application.Current?.Resources["SourceHanSerifSC"];
             if (sourceHanSerifCN is FontFamily)
