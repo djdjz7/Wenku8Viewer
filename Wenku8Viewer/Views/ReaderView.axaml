@@ -17,7 +17,17 @@
             <ia:InvokeCommandAction Command="{Binding OnLoaded}" />
         </ia:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-
+    <UserControl.Styles>
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0" />
+        </Style>
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+    </UserControl.Styles>
     <Panel>
         <ScrollViewer
             MaxWidth="1000"
@@ -35,9 +45,18 @@
                         Text="{Binding ChapterTitle}"
                         TextWrapping="Wrap" />
                     <TextBlock
+                        Margin="0,8,0,0"
                         FontSize="{Binding FontSize}"
+                        IsVisible="{Binding ChapterContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                         Text="{Binding ChapterContent}"
                         TextWrapping="Wrap" />
+                    <ListBox ItemsSource="{Binding Illustrations}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding ImageTask^}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                     <Grid Margin="0,8,0,0" ColumnDefinitions="*,*">
                         <Button
                             Margin="0,0,1,0"
@@ -54,9 +73,11 @@
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         FontSize="12"
-                                        FontWeight="Medium"
                                         Text="上一页" />
-                                    <TextBlock FontSize="18" Text="{Binding PreviousTitle}" />
+                                    <TextBlock
+                                        FontSize="18"
+                                        FontWeight="Medium"
+                                        Text="{Binding PreviousTitle}" />
                                 </StackPanel>
                             </StackPanel>
                         </Button>
