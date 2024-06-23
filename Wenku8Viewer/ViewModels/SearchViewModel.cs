@@ -28,6 +28,7 @@ public class SearchViewModel : ViewModelBase, IRoutableViewModel
         );
         NavigateToNovelDetailsCommand = ReactiveCommand.Create<Novel>(NavigateToNovelDetails);
     }
+
     private Encoding _gb2312 = Encoding.GetEncoding("gb2312");
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public IScreen HostScreen { get; }
@@ -94,6 +95,8 @@ public class SearchViewModel : ViewModelBase, IRoutableViewModel
 
     public void NavigateToNovelDetails(Novel novel)
     {
-        HostScreen.Router.Navigate.Execute(new NovelDetailsViewModel(HostScreen, novel, _browsingContext));
+        HostScreen.Router.Navigate.Execute(
+            new NovelDetailsViewModel(HostScreen, novel, _browsingContext)
+        );
     }
 }

@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.ReactiveUI;
+﻿using Avalonia.ReactiveUI;
 using ReactiveUI;
 using Wenku8Viewer.ViewModels;
 
@@ -13,7 +12,5 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         InitializeComponent();
     }
 
-    private void Binding(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-    }
+    private void Binding(object? sender, Avalonia.Interactivity.RoutedEventArgs e) { }
 }

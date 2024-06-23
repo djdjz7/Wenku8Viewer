@@ -1,18 +1,14 @@
-﻿using ReactiveUI;
-using AngleSharp;
-using System.Net.Http;
+﻿using AngleSharp;
 using AngleSharp.Dom;
-using System.Collections.Generic;
-using System.Linq;
-using AngleSharp.Io;
-using System.Web;
-using System.Diagnostics;
-using System.Text;
+using ReactiveUI;
 using System;
-using Avalonia.Platform;
-using System.Reactive;
+using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
+using System.Reactive;
+using System.Text;
 using System.Text.Json;
+using System.Web;
 
 namespace Wenku8Viewer.ViewModels;
 
@@ -94,7 +90,10 @@ public class LoginViewModel : ViewModelBase, IRoutableViewModel
             return;
         var content = File.ReadAllText("credentials.json");
         var credentials = JsonSerializer.Deserialize<Credential>(content);
-        if(string.IsNullOrEmpty(credentials?.Username) && string.IsNullOrEmpty(credentials?.Password))
+        if (
+            string.IsNullOrEmpty(credentials?.Username)
+            && string.IsNullOrEmpty(credentials?.Password)
+        )
             return;
         Username = credentials.Username!;
         Password = credentials.Password!;

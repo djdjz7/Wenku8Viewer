@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Reactive;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
-using AngleSharp;
+﻿using AngleSharp;
 using ReactiveUI;
-using Wenku8Viewer.Models;
+using System;
+using System.Reactive;
+using System.Threading.Tasks;
 using Wenku8Viewer.Utils;
 
 namespace Wenku8Viewer.ViewModels;
@@ -87,11 +78,11 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
         var nextA = footTextDiv.QuerySelector("a:nth-child(4)");
         var prevUrl = prevA?.Attributes["href"]?.Value ?? string.Empty;
         var nextUrl = nextA?.Attributes["href"]?.Value ?? string.Empty;
-        if(prevUrl.Contains("index"))
+        if (prevUrl.Contains("index"))
             PreviousUrl = string.Empty;
         else
             PreviousUrl = prevUrl;
-        if(nextUrl.Contains("last"))
+        if (nextUrl.Contains("last"))
             NextUrl = string.Empty;
         else
             NextUrl = nextUrl;

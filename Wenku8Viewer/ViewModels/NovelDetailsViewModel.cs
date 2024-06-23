@@ -2,17 +2,13 @@
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Reactive;
-using System.Text;
-using System.Threading.Tasks;
 using Wenku8Viewer.Models;
 using Wenku8Viewer.Utils;
 
 namespace Wenku8Viewer.ViewModels;
 
-public class NovelDetailsViewModel: ViewModelBase, IRoutableViewModel
+public class NovelDetailsViewModel : ViewModelBase, IRoutableViewModel
 {
     public NovelDetailsViewModel(IScreen screen, Novel novel, IBrowsingContext context)
     {
@@ -21,6 +17,7 @@ public class NovelDetailsViewModel: ViewModelBase, IRoutableViewModel
         _browsingContext = context;
         OpenChapterReaderCommand = ReactiveCommand.Create<string>(OpenChapterReader);
     }
+
     private Novel _currentNovel = null!;
     private IBrowsingContext _browsingContext;
     public ReactiveCommand<string, Unit> OpenChapterReaderCommand { get; set; }
@@ -34,9 +31,10 @@ public class NovelDetailsViewModel: ViewModelBase, IRoutableViewModel
     private List<Volume>? _novelVolumeList;
     public List<Volume> NovelVolumeList
     {
-        get => _novelVolumeList??= new List<Volume>();
+        get => _novelVolumeList ??= new List<Volume>();
         set => this.RaiseAndSetIfChanged(ref _novelVolumeList, value);
     }
+
     public async void OnLoaded()
     {
         CurrentNovel = await NovelUtils.GetNovelDetails(_browsingContext, CurrentNovel.NovelID);
@@ -46,6 +44,12 @@ public class NovelDetailsViewModel: ViewModelBase, IRoutableViewModel
     public void OpenChapterReader(string chapterUrl)
     {
         var novelID = CurrentNovel.NovelID;
-        HostScreen.Router.Navigate.Execute(new ReaderViewModel(HostScreen, _browsingContext, $"https://www.wenku8.net/novel/{novelID / 1000}/{novelID}/{chapterUrl}" ));
+        HostScreen.Router.Navigate.Execute(
+            new ReaderViewModel(
+                HostScreen,
+                _browsingContext,
+                $"https://www.wenku8.net/novel/{novelID / 1000}/{novelID}/{chapterUrl}"
+            )
+        );
     }
 }

@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 
 namespace Wenku8Viewer.Utils;
 
 public static class ImageHelper
 {
     private static HttpClient _httpClient = new HttpClient();
+
     public static Bitmap LoadFromResource(Uri resourceUri)
     {
         return new Bitmap(AssetLoader.Open(resourceUri));
