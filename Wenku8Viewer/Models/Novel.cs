@@ -1,6 +1,6 @@
-﻿using Avalonia.Media.Imaging;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
 using Wenku8Viewer.Utils;
 
 namespace Wenku8Viewer.Models

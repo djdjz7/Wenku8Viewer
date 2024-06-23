@@ -135,12 +135,12 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
             NextUrl = string.Empty;
         else
             NextUrl = nextUrl;
-        
-        if(_currentIndex == 0)
+
+        if (_currentIndex == 0)
             PreviousTitle = string.Empty;
         else
             PreviousTitle = _chapters[_currentIndex - 1].Title;
-        if(_currentIndex == _chapters.Count - 1)
+        if (_currentIndex == _chapters.Count - 1)
             NextTitle = string.Empty;
         else
             NextTitle = _chapters[_currentIndex + 1].Title;

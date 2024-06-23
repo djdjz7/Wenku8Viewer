@@ -1,5 +1,5 @@
-﻿using ReactiveUI;
-using System;
+﻿using System;
+using ReactiveUI;
 using Wenku8Viewer.ViewModels;
 using Wenku8Viewer.Views;
 

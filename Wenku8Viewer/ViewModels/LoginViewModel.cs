@@ -1,7 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
-using ReactiveUI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -9,6 +6,9 @@ using System.Reactive;
 using System.Text;
 using System.Text.Json;
 using System.Web;
+using AngleSharp;
+using AngleSharp.Dom;
+using ReactiveUI;
 
 namespace Wenku8Viewer.ViewModels;
 
