@@ -122,7 +122,10 @@
                 <TextBlock Text="{Binding CurrentNovel.RecentChapter}" />
             </StackPanel>
         </Grid>
-        <TabControl Grid.Row="1">
+        <TabControl
+            Grid.Row="1"
+            Margin="0,8,0,0"
+            TabStripPlacement="Left">
             <TabItem Header="章节列表">
                 <ScrollViewer>
                     <ListBox ItemsSource="{Binding NovelVolumeList}">
@@ -142,8 +145,9 @@
                                                     x:CompileBindings="False"
                                                     Background="Transparent"
                                                     Command="{Binding $parent[UserControl].DataContext.OpenChapterReaderCommand}"
-                                                    CommandParameter="{Binding Url}"
-                                                    Content="{Binding Title}" />
+                                                    CommandParameter="{Binding Url}">
+                                                    <TextBlock Text="{Binding Title}" TextTrimming="WordEllipsis" />
+                                                </Button>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                         <ListBox.ItemsPanel>
@@ -157,6 +161,34 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </ScrollViewer>
+            </TabItem>
+            <TabItem Header="更多">
+                <WrapPanel>
+                    <Button Command="{Binding FavoriteCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe Fluent Icons"
+                                Text="&#xe734;" />
+                            <TextBlock
+                                Margin="2,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="收藏" />
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="4,0,0,0" Command="{Binding DownloadCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe Fluent Icons"
+                                Text="&#xe896;" />
+                            <TextBlock
+                                Margin="2,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="下载" />
+                        </StackPanel>
+                    </Button>
+                </WrapPanel>
             </TabItem>
         </TabControl>
     </Grid>

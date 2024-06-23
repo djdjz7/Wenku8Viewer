@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reactive;
+using System.Threading.Tasks;
 using AngleSharp;
 using ReactiveUI;
 using Wenku8Viewer.Models;
@@ -16,11 +17,18 @@ public class NovelDetailsViewModel : ViewModelBase, IRoutableViewModel
         CurrentNovel = novel;
         _browsingContext = context;
         OpenChapterReaderCommand = ReactiveCommand.Create<string>(OpenChapterReader);
+        DownloadCommand = ReactiveCommand.CreateFromTask(Download, this.WhenAnyValue(x => x.NovelVolumeList, x =>
+        {
+            return x != null && x.Count > 0;
+        }));
+        FavoriteCommand = ReactiveCommand.Create(Favorite);
     }
 
     private Novel _currentNovel = null!;
     private IBrowsingContext _browsingContext;
     public ReactiveCommand<string, Unit> OpenChapterReaderCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> DownloadCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> FavoriteCommand { get; set; }
     public Novel CurrentNovel
     {
         get => _currentNovel;
@@ -52,5 +60,15 @@ public class NovelDetailsViewModel : ViewModelBase, IRoutableViewModel
                 NovelVolumeList
             )
         );
+    }
+
+    public async Task Download()
+    {
+
+    }
+
+    public void Favorite()
+    {
+
     }
 }
