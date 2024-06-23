@@ -48,7 +48,8 @@ public class NovelDetailsViewModel : ViewModelBase, IRoutableViewModel
             new ReaderViewModel(
                 HostScreen,
                 _browsingContext,
-                $"https://www.wenku8.net/novel/{novelID / 1000}/{novelID}/{chapterUrl}"
+                $"https://www.wenku8.net/novel/{novelID / 1000}/{novelID}/{chapterUrl}",
+                NovelVolumeList
             )
         );
     }

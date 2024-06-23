@@ -19,6 +19,7 @@
     ExtendClientAreaToDecorationsHint="True"
     FontFamily="Inter, Microsoft YaHei"
     Icon="/Assets/avalonia-logo.ico"
+    TextElement.FontSize="14"
     TransparencyLevelHint="AcrylicBlur"
     mc:Ignorable="d">
     <Window.DataContext>
