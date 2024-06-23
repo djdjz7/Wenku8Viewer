@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
@@ -61,8 +60,6 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
     private string? _previousTitle;
     private string? _nextTitle;
     private int _currentIndex;
-    private int _fontType;
-    private int _fontSize = 14;
     private List<Chapter> _chapters;
 
     public Vector ScrollOffset { get; } = Vector.Zero;
@@ -98,13 +95,27 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
     }
     public int FontType
     {
-        get => _fontType;
-        set => this.RaiseAndSetIfChanged(ref _fontType, value);
+        get => Static.Settings!.ReaderSettings.FontType;
+        set
+        {
+            if (Static.Settings!.ReaderSettings.FontType != value)
+            {
+                Static.Settings.ReaderSettings.FontType = value;
+                this.RaisePropertyChanged(nameof(FontType));
+            }
+        }
     }
     public int FontSize
     {
-        get => _fontSize;
-        set => this.RaiseAndSetIfChanged(ref _fontSize, value);
+        get => Static.Settings!.ReaderSettings.FontSize;
+        set
+        {
+            if (Static.Settings!.ReaderSettings.FontSize != value)
+            {
+                Static.Settings.ReaderSettings.FontSize = value;
+                this.RaisePropertyChanged(nameof(FontSize));
+            }
+        }
     }
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public ReactiveCommand<Unit, Unit> SwitchPreviousCommand { get; }

@@ -17,10 +17,16 @@ public class NovelDetailsViewModel : ViewModelBase, IRoutableViewModel
         CurrentNovel = novel;
         _browsingContext = context;
         OpenChapterReaderCommand = ReactiveCommand.Create<string>(OpenChapterReader);
-        DownloadCommand = ReactiveCommand.CreateFromTask(Download, this.WhenAnyValue(x => x.NovelVolumeList, x =>
-        {
-            return x != null && x.Count > 0;
-        }));
+        DownloadCommand = ReactiveCommand.CreateFromTask(
+            Download,
+            this.WhenAnyValue(
+                x => x.NovelVolumeList,
+                x =>
+                {
+                    return x != null && x.Count > 0;
+                }
+            )
+        );
         FavoriteCommand = ReactiveCommand.Create(Favorite);
     }
 
@@ -62,13 +68,7 @@ public class NovelDetailsViewModel : ViewModelBase, IRoutableViewModel
         );
     }
 
-    public async Task Download()
-    {
+    public async Task Download() { }
 
-    }
-
-    public void Favorite()
-    {
-
-    }
+    public void Favorite() { }
 }

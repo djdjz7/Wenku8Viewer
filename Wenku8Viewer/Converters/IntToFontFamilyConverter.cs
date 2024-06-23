@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Data.Converters;
-using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 
 namespace Wenku8Viewer.Converters;

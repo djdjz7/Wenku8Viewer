@@ -30,16 +30,20 @@
                 BoxShadow="0 4 8 1 #33333333">
                 <StackPanel TextElement.FontFamily="{Binding FontType, Converter={StaticResource IntToFontFamilyConverter}}">
                     <TextBlock
-						TextWrapping="Wrap"
-						FontSize="{Binding FontSize, Converter={StaticResource MultiplierConverter}, ConverterParameter=1.5}"
+                        FontSize="{Binding FontSize, Converter={StaticResource MultiplierConverter}, ConverterParameter=1.5}"
                         FontWeight="Bold"
-                        Text="{Binding ChapterTitle}" />
-                    <TextBlock Text="{Binding ChapterContent}" TextWrapping="Wrap" FontSize="{Binding FontSize}" />
-                    <UniformGrid Margin="0,8,0,0" Columns="2">
+                        Text="{Binding ChapterTitle}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        FontSize="{Binding FontSize}"
+                        Text="{Binding ChapterContent}"
+                        TextWrapping="Wrap" />
+                    <Grid Margin="0,8,0,0" ColumnDefinitions="*,*">
                         <Button
                             Margin="0,0,1,0"
                             HorizontalAlignment="Stretch"
-                            Command="{Binding SwitchPreviousCommand}">
+                            Command="{Binding SwitchPreviousCommand}"
+                            IsVisible="{Binding PreviousUrl, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock
                                     VerticalAlignment="Center"
@@ -57,9 +61,11 @@
                             </StackPanel>
                         </Button>
                         <Button
+                            Grid.Column="1"
                             Margin="1,0,0,0"
                             HorizontalAlignment="Stretch"
-                            Command="{Binding SwitchNextCommand}">
+                            Command="{Binding SwitchNextCommand}"
+                            IsVisible="{Binding NextUrl, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                 <StackPanel VerticalAlignment="Center">
                                     <TextBlock
@@ -80,7 +86,7 @@
                                     Text="&#xe761;" />
                             </StackPanel>
                         </Button>
-                    </UniformGrid>
+                    </Grid>
                 </StackPanel>
             </Border>
         </ScrollViewer>
@@ -111,25 +117,23 @@
                                     FontSize="20"
                                     FontWeight="Bold"
                                     Text="阅读器设置" />
-                                <TextBlock
-                                    Margin="0,2,0,0"
-                                    FontSize="16"
-                                    Text="字体" />
-                                <ComboBox FontFamily="{Binding FontType, Converter={StaticResource IntToFontFamilyConverter}}" Margin="0,4,0,0" HorizontalAlignment="Stretch" SelectedIndex="{Binding FontType}">
+                                <TextBlock Margin="0,2,0,0" Text="字体" />
+                                <ComboBox
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    FontFamily="{Binding FontType, Converter={StaticResource IntToFontFamilyConverter}}"
+                                    SelectedIndex="{Binding FontType}">
                                     <ComboBoxItem TextElement.FontFamily="Inter, Microsoft YaHei">非衬线</ComboBoxItem>
-									<ComboBoxItem TextElement.FontFamily="{StaticResource SourceHanSerifSC}">衬线</ComboBoxItem>
-								</ComboBox>
-                                <TextBlock
-                                    Margin="0,2,0,0"
-                                    FontSize="16"
-                                    Text="字号" />
+                                    <ComboBoxItem TextElement.FontFamily="{StaticResource SourceHanSerifSC}">衬线</ComboBoxItem>
+                                </ComboBox>
+                                <TextBlock Margin="0,2,0,0" Text="字号" />
                                 <NumericUpDown
-									Value="{Binding FontSize}"
                                     Margin="0,4,0,0"
                                     HorizontalAlignment="Stretch"
                                     Increment="2"
                                     Maximum="24"
-                                    Minimum="12" />
+                                    Minimum="12"
+                                    Value="{Binding FontSize}" />
                             </StackPanel>
                         </ScrollViewer>
                     </Flyout>
