@@ -17,13 +17,31 @@
 			<ia:InvokeCommandAction Command="{Binding OnLoaded}" />
 		</ia:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
-	<ScrollViewer MaxWidth="1000" HorizontalAlignment="Center">
+	<ScrollViewer MaxWidth="1000" HorizontalAlignment="Center" Offset="{Binding ScrollOffset, Mode=OneWay}">
 		<StackPanel>
 			<TextBlock FontSize="24" Text="{Binding ChapterTitle}" />
 			<TextBlock Text="{Binding ChapterContent}" />
-			<UniformGrid Columns="2">
-				<Button Command="{Binding SwitchPreviousCommand}" Content="上一页" />
-				<Button Margin="2 0 0 0 " Command="{Binding SwitchNextCommand}" Content="下一页" />
+			<UniformGrid Columns="2" Margin="0 8 0 12">
+				<Button
+                    Margin="0,0,1,0"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding SwitchPreviousCommand}"
+                    >
+					<StackPanel Orientation="Horizontal">
+						<TextBlock VerticalAlignment="Center" Text="&#xe760;" FontFamily="Segoe Fluent Icons" />
+						<TextBlock VerticalAlignment="Center" Margin="2 0 0 0" Text="上一页" />
+					</StackPanel>
+				</Button>
+				<Button
+                    Margin="1,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding SwitchNextCommand}"
+                    >
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+						<TextBlock VerticalAlignment="Center" Margin="0 0 2 0" Text="下一页" />
+						<TextBlock VerticalAlignment="Center" Text="&#xe761;" FontFamily="Segoe Fluent Icons" />
+					</StackPanel>
+				</Button>
 			</UniformGrid>
 		</StackPanel>
 	</ScrollViewer>

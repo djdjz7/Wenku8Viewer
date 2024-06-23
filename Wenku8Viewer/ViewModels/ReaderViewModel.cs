@@ -1,8 +1,10 @@
-﻿using AngleSharp;
-using ReactiveUI;
-using System;
+﻿using System;
+using System.Diagnostics;
 using System.Reactive;
 using System.Threading.Tasks;
+using AngleSharp;
+using Avalonia;
+using ReactiveUI;
 using Wenku8Viewer.Utils;
 
 namespace Wenku8Viewer.ViewModels;
@@ -37,6 +39,8 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
     private string? _chapterTitle;
     private string? _previousUrl;
     private string? _nextUrl;
+
+    public Vector ScrollOffset { get; } = Vector.Zero;
     public string? ChapterContent
     {
         get => _chapterContent;
@@ -86,6 +90,7 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
             NextUrl = string.Empty;
         else
             NextUrl = nextUrl;
+        this.RaisePropertyChanged(nameof(ScrollOffset));
     }
 
     public async Task SwitchChapter(string url)
