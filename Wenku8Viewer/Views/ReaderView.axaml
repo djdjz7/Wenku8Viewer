@@ -111,55 +111,122 @@
                 </StackPanel>
             </Border>
         </ScrollViewer>
-        <Border
-            Width="40"
-            Height="40"
+        <StackPanel
             Margin="12"
             HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Background="White"
-            BoxShadow="0 4 8 1 #33333333"
-            CornerRadius="18">
-            <Button
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="Transparent"
+            VerticalAlignment="Bottom">
+            <Border
+                Width="40"
+                Height="40"
+                HorizontalAlignment="Right"
+                Background="White"
+                BoxShadow="0 4 8 1 #33333333"
                 CornerRadius="18">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontFamily="Segoe Fluent Icons"
-                    Text="&#xe713;" />
-                <Button.Flyout>
-                    <Flyout>
-                        <ScrollViewer TextElement.FontFamily="Inter, Microsoft YaHei">
-                            <StackPanel>
-                                <TextBlock
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Text="阅读器设置" />
-                                <TextBlock Margin="0,2,0,0" Text="字体" />
-                                <ComboBox
-                                    Margin="0,4,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    FontFamily="{Binding FontType, Converter={StaticResource IntToFontFamilyConverter}}"
-                                    SelectedIndex="{Binding FontType}">
-                                    <ComboBoxItem TextElement.FontFamily="Inter, Microsoft YaHei">非衬线</ComboBoxItem>
-                                    <ComboBoxItem TextElement.FontFamily="{StaticResource SourceHanSerifSC}">衬线</ComboBoxItem>
-                                </ComboBox>
-                                <TextBlock Margin="0,2,0,0" Text="字号" />
-                                <NumericUpDown
-                                    Margin="0,4,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    Increment="2"
-                                    Maximum="24"
-                                    Minimum="12"
-                                    Value="{Binding FontSize}" />
-                            </StackPanel>
-                        </ScrollViewer>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-        </Border>
+                <Button
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="Transparent"
+                    CornerRadius="18">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="Segoe Fluent Icons"
+                        Text="&#xe713;" />
+                    <Button.Flyout>
+						<Flyout HorizontalOffset="-4" Placement="LeftEdgeAlignedBottom">
+                            <ScrollViewer TextElement.FontFamily="Inter, Microsoft YaHei">
+                                <StackPanel>
+                                    <TextBlock
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Text="阅读器设置" />
+                                    <TextBlock Margin="0,2,0,0" Text="字体" />
+                                    <ComboBox
+                                        Margin="0,4,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        FontFamily="{Binding FontType, Converter={StaticResource IntToFontFamilyConverter}}"
+                                        SelectedIndex="{Binding FontType}">
+                                        <ComboBoxItem TextElement.FontFamily="Inter, Microsoft YaHei">非衬线</ComboBoxItem>
+                                        <ComboBoxItem TextElement.FontFamily="{StaticResource SourceHanSerifSC}">衬线</ComboBoxItem>
+                                    </ComboBox>
+                                    <TextBlock Margin="0,2,0,0" Text="字号" />
+                                    <NumericUpDown
+                                        Margin="0,4,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        Increment="2"
+                                        Maximum="24"
+                                        Minimum="12"
+                                        Value="{Binding FontSize}" />
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Border>
+            <Border
+                Height="40"
+                Margin="0,8,0,0"
+                HorizontalAlignment="Right"
+                Background="White"
+                BoxShadow="0 4 8 1 #33333333"
+                CornerRadius="18">
+                <Button
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="Transparent"
+                    CornerRadius="18">
+                    <Grid ColumnDefinitions="Auto, Auto">
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe Fluent Icons"
+                            Text="&#xe700;" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="2,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="目录" />
+                    </Grid>
+                    <Button.Flyout>
+                        <Flyout HorizontalOffset="-4" Placement="LeftEdgeAlignedBottom">
+                            <ScrollViewer
+                                Width="256"
+                                MaxHeight="512"
+                                TextElement.FontFamily="Inter, Microsoft YaHei">
+                                <ListBox ItemsSource="{Binding Volumes}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock
+                                                    HorizontalAlignment="Left"
+                                                    FontSize="18"
+                                                    FontWeight="Bold"
+                                                    Text="{Binding Title}" />
+                                                <ListBox Margin="0,4,0,0" ItemsSource="{Binding Chapters}">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Button
+                                                                HorizontalAlignment="Stretch"
+                                                                x:CompileBindings="False"
+                                                                Background="Transparent"
+                                                                Command="{Binding $parent[UserControl].DataContext.GoToChapterCommand}"
+                                                                CommandParameter="{Binding Url}">
+                                                                <TextBlock Text="{Binding Title}" TextTrimming="WordEllipsis" />
+                                                            </Button>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </ScrollViewer>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Border>
+        </StackPanel>
     </Panel>
 </UserControl>

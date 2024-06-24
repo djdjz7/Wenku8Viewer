@@ -25,6 +25,7 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
         HostScreen = screen;
         _browsingContext = browsingContext;
         _chapterUrl = new Uri(chapterUrl);
+        Volumes = volumeList;
         SwitchPreviousCommand = ReactiveCommand.CreateFromTask(
             async () =>
             {
@@ -39,6 +40,7 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
             },
             this.WhenAnyValue(x => x.NextUrl, (x) => !string.IsNullOrEmpty(x))
         );
+        GoToChapterCommand = ReactiveCommand.CreateFromTask<string>(GoToChapter);
         _chapters = volumeList.SelectMany(x => x.Chapters ?? Enumerable.Empty<Chapter>()).ToList();
         for (int i = 0; i < _chapters.Count; i++)
         {
@@ -46,7 +48,7 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
                 continue;
             if (chapterUrl.EndsWith(_chapters[i].Url!))
             {
-                _currentIndex = i;
+                CurrentIndex = i;
                 break;
             }
         }
@@ -64,6 +66,7 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
     private string? _nextTitle;
     private int _currentIndex;
     private List<Chapter> _chapters;
+    private List<Volume> _volumes = null!;
 
     public Vector ScrollOffset { get; } = Vector.Zero;
     public string? ChapterContent
@@ -125,9 +128,20 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
             }
         }
     }
+    public List<Volume> Volumes
+    {
+        get => _volumes;
+        set => this.RaiseAndSetIfChanged(ref _volumes, value);
+    }
+    public int CurrentIndex
+    {
+        get => _currentIndex;
+        set => this.RaiseAndSetIfChanged(ref _currentIndex, value);
+    }
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public ReactiveCommand<Unit, Unit> SwitchPreviousCommand { get; }
     public ReactiveCommand<Unit, Unit> SwitchNextCommand { get; }
+    public ReactiveCommand<string, Unit> GoToChapterCommand { get; }
 
     public async Task OnLoaded()
     {
@@ -170,21 +184,36 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
         else
             NextUrl = nextUrl;
 
-        if (_currentIndex == 0)
+        if (CurrentIndex == 0)
             PreviousTitle = string.Empty;
         else
-            PreviousTitle = _chapters[_currentIndex - 1].Title;
-        if (_currentIndex == _chapters.Count - 1)
+            PreviousTitle = _chapters[CurrentIndex - 1].Title;
+        if (CurrentIndex == _chapters.Count - 1)
             NextTitle = string.Empty;
         else
-            NextTitle = _chapters[_currentIndex + 1].Title;
+            NextTitle = _chapters[CurrentIndex + 1].Title;
         this.RaisePropertyChanged(nameof(ScrollOffset));
     }
 
     public async Task SwitchChapter(string url, bool isNext)
     {
         _chapterUrl = new Uri(_chapterUrl, url);
-        _currentIndex += isNext ? 1 : -1;
+        CurrentIndex += isNext ? 1 : -1;
+        await OnLoaded();
+    }
+    public async Task GoToChapter(string url)
+    {
+        _chapterUrl = new Uri(_chapterUrl, url);
+        for (int i = 0; i < _chapters.Count; i++)
+        {
+            if (_chapters[i].Url is null)
+                continue;
+            if (url.EndsWith(_chapters[i].Url!))
+            {
+                CurrentIndex = i;
+                break;
+            }
+        }
         await OnLoaded();
     }
 }
