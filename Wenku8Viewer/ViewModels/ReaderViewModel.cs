@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AngleSharp;
 using Avalonia;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using ReactiveUI;
 using Wenku8Viewer.Models;
 using Wenku8Viewer.Utils;
@@ -55,7 +56,7 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
     private IBrowsingContext _browsingContext;
     private Uri _chapterUrl = null!;
     private string? _chapterContent;
-    private List<Illustration>? _illustrations = null;
+    private List<Task<Bitmap?>>? _illustrations = null;
     private string? _chapterTitle;
     private string? _previousUrl;
     private string? _nextUrl;
@@ -70,7 +71,7 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
         get => _chapterContent;
         set => this.RaiseAndSetIfChanged(ref _chapterContent, value);
     }
-    public List<Illustration>? Illustrations
+    public List<Task<Bitmap?>>? Illustrations
     {
         get => _illustrations;
         set => this.RaiseAndSetIfChanged(ref _illustrations, value);
@@ -135,21 +136,24 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
         var textContent = contentDiv?.TextContent ?? string.Empty;
         ChapterContent = NovelUtils
             .GetNovelContentReplaceRegex()
-            .Replace(textContent, string.Empty).Trim();
+            .Replace(textContent, string.Empty)
+            .Trim();
         var titleDiv = document.QuerySelector("#title");
         ChapterTitle = titleDiv?.TextContent?.Trim() ?? string.Empty;
 
         var illustrationsElements = contentDiv?.QuerySelectorAll("div.divimage a img");
         if (illustrationsElements is not null)
         {
-            Illustrations = illustrationsElements.Select(x =>
-            {
-                var src = x.Attributes["src"]?.Value;
-                if (src is null)
-                    return new Illustration(Task.FromResult<Bitmap?>(null));
-                return new Illustration(ImageHelper.LoadFromWeb(new Uri(src)));
-            }).ToList();
-        }    
+            Illustrations = illustrationsElements
+                .Select(x =>
+                {
+                    var src = x.Attributes["src"]?.Value;
+                    if (src is null)
+                        return Task.FromResult<Bitmap?>(null);
+                    return ImageHelper.LoadFromWeb(new Uri(src));
+                })
+                .ToList();
+        }
         var footTextDiv = document.QuerySelector("#foottext");
         if (footTextDiv is null)
             return;
@@ -182,14 +186,5 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
         _chapterUrl = new Uri(_chapterUrl, url);
         _currentIndex += isNext ? 1 : -1;
         await OnLoaded();
-    }
-
-    public class Illustration
-    {
-        public Task<Bitmap?> ImageTask { get; set; }
-        public Illustration(Task<Bitmap?> imageTask)
-        {
-            ImageTask = imageTask;
-        }
     }
 }

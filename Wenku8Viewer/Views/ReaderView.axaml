@@ -53,11 +53,11 @@
                     <ListBox ItemsSource="{Binding Illustrations}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding ImageTask^}" />
+                                <Image Source="{ReflectionBinding $self.DataContext^}" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Grid Margin="0,8,0,0" ColumnDefinitions="*,*">
+                    <Grid Margin="0,12,0,0" ColumnDefinitions="*,*">
                         <Button
                             Margin="0,0,1,0"
                             HorizontalAlignment="Stretch"
