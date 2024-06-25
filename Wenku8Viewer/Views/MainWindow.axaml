@@ -46,7 +46,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
-            Command="{Binding NavigateBack}">
+            Command="{Binding NavigateBackCommand}">
             <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

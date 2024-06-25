@@ -18,20 +18,33 @@ public partial class App : Application
         AvaloniaXamlLoader.Load(this);
     }
 
+    private MainWindowViewModel? _mainWindowViewModel = new MainWindowViewModel();
+
     public override void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.Exit += Desktop_Exit;
-            var mainWindow = new MainWindow { DataContext = new MainWindowViewModel() };
+            var mainWindow = new MainWindow { DataContext = _mainWindowViewModel };
             desktop.MainWindow = mainWindow;
             Static.StorageProvider = TopLevel.GetTopLevel(mainWindow)?.StorageProvider;
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            var mainView = new MainViewPlatform { DataContext = new MainWindowViewModel() };
+            var mainView = new MainViewPlatform { DataContext = _mainWindowViewModel };
             singleViewPlatform.MainView = mainView;
-            Static.StorageProvider = TopLevel.GetTopLevel(mainView)?.StorageProvider;
+            mainView.Loaded += (_, _) =>
+            {
+                var topLevel = TopLevel.GetTopLevel(mainView);
+                if (topLevel is not null)
+                {
+                    Static.StorageProvider = topLevel.StorageProvider;
+                    topLevel.BackRequested += (_, _) =>
+                    {
+                        _mainWindowViewModel?.NavigateBackCommand.Execute();
+                    };
+                }
+            };
         }
         try
         {

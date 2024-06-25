@@ -8,7 +8,7 @@ public class MainWindowViewModel : ViewModelBase, IScreen
     public MainWindowViewModel() { }
 
     public RoutingState Router { get; } = new RoutingState();
-    public ReactiveCommand<Unit, IRoutableViewModel> NavigateBack => Router.NavigateBack;
+    public ReactiveCommand<Unit, IRoutableViewModel> NavigateBackCommand => Router.NavigateBack!;
 
     public void OnStartup()
     {
