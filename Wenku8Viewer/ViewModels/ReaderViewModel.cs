@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AngleSharp;
 using Avalonia;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Wenku8Viewer.Models;
@@ -64,15 +63,33 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
     private List<Chapter> _chapters;
 
     public Vector ScrollOffset { get; } = Vector.Zero;
-    [Reactive] public string? ChapterContent { get; set; }
-    [Reactive] public List<Task<Bitmap?>>? Illustrations { get; set; }
-    [Reactive] public string? ChapterTitle { get; set; }
-    [Reactive] public string? PreviousUrl { get; set; }
-    [Reactive] public string? NextUrl { get; set; }
-    [Reactive] public string? PreviousTitle { get; set; }
-    [Reactive] public string? NextTitle { get; set; }
-    [Reactive] public List<Volume> Volumes { get; set; }
-    [Reactive] public int CurrentIndex { get; set; }
+
+    [Reactive]
+    public string? ChapterContent { get; set; }
+
+    [Reactive]
+    public List<Task<Bitmap?>>? Illustrations { get; set; }
+
+    [Reactive]
+    public string? ChapterTitle { get; set; }
+
+    [Reactive]
+    public string? PreviousUrl { get; set; }
+
+    [Reactive]
+    public string? NextUrl { get; set; }
+
+    [Reactive]
+    public string? PreviousTitle { get; set; }
+
+    [Reactive]
+    public string? NextTitle { get; set; }
+
+    [Reactive]
+    public List<Volume> Volumes { get; set; }
+
+    [Reactive]
+    public int CurrentIndex { get; set; }
     public int FontType
     {
         get => Static.Settings!.ReaderSettings.FontType;
@@ -159,6 +176,7 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
         CurrentIndex += isNext ? 1 : -1;
         await OnLoaded();
     }
+
     public async Task GoToChapter(string url)
     {
         _chapterUrl = new Uri(_chapterUrl, url);

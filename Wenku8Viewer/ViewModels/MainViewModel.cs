@@ -21,9 +21,15 @@ public class MainViewModel : ViewModelBase, IRoutableViewModel
     }
 
     private IBrowsingContext _browsingContext;
-    [Reactive] public ObservableCollection<Novel>? TodaysHot { get; set; }
-    [Reactive] public ObservableCollection<Novel>? MonthlyHot { get; set; }
-    [Reactive] public string? Username { get; set; }
+
+    [Reactive]
+    public ObservableCollection<Novel>? TodaysHot { get; set; }
+
+    [Reactive]
+    public ObservableCollection<Novel>? MonthlyHot { get; set; }
+
+    [Reactive]
+    public string? Username { get; set; }
 
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public IScreen HostScreen { get; }

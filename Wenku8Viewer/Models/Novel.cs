@@ -49,9 +49,7 @@ namespace Wenku8Viewer.Models
             NovelID = novelID;
             ImageFromWebsite = ImageHelper.LoadFromWeb(new Uri(CoverUrl));
         }
-        public Novel()
-        {
-            
-        }
+
+        public Novel() { }
     }
 }

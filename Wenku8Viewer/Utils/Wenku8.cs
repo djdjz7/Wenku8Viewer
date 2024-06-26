@@ -59,7 +59,9 @@ namespace Wenku8Viewer.Utils
             }
             else
             {
-                throw new NovelSearchRedirectException(NovelUtils.ExtractNovelIDFromUrl(searchPageDocument.BaseUri));
+                throw new NovelSearchRedirectException(
+                    NovelUtils.ExtractNovelIDFromUrl(searchPageDocument.BaseUri)
+                );
             }
         }
     }
@@ -67,10 +69,10 @@ namespace Wenku8Viewer.Utils
     internal class NovelSearchRedirectException : Exception
     {
         public int NovelID { get; }
+
         public NovelSearchRedirectException(int novelID)
         {
             NovelID = novelID;
         }
     }
-
 }

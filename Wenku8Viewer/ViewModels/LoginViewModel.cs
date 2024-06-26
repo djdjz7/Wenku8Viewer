@@ -31,9 +31,11 @@ public class LoginViewModel : ViewModelBase, IRoutableViewModel
 
     private HttpClient _httpClient = new HttpClient();
 
-    [Reactive] public string? Username{ get; set; }
+    [Reactive]
+    public string? Username { get; set; }
 
-    [Reactive] public string? Password { get; set; }
+    [Reactive]
+    public string? Password { get; set; }
 
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public IScreen HostScreen { get; }

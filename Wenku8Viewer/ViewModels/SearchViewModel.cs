@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
-using System.Web;
 using AngleSharp;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;

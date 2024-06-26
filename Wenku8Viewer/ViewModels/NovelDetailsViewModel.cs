@@ -37,9 +37,12 @@ public class NovelDetailsViewModel : ViewModelBase, IRoutableViewModel
     public ReactiveCommand<string, Unit> OpenChapterReaderCommand { get; set; }
     public ReactiveCommand<Unit, Unit> DownloadCommand { get; set; }
     public ReactiveCommand<Unit, Unit> FavoriteCommand { get; set; }
-    [Reactive] public Novel CurrentNovel { get; set; }
 
-    [Reactive] public List<Volume>? NovelVolumeList { get; set; }
+    [Reactive]
+    public Novel CurrentNovel { get; set; }
+
+    [Reactive]
+    public List<Volume>? NovelVolumeList { get; set; }
 
     public async void OnLoaded()
     {
