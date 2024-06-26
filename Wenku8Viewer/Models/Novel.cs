@@ -19,7 +19,7 @@ namespace Wenku8Viewer.Models
         public string? NovelTags { get; set; }
         public string? NovelDescription { get; set; }
         public DateOnly? LastUpdate { get; set; }
-        public Task<Bitmap?> ImageFromWebsite { get; }
+        public Task<Bitmap?>? ImageFromWebsite { get; }
         public Volume[]? Volumes { get; set; }
 
         public Novel(string? novelName, string? href)
@@ -48,6 +48,10 @@ namespace Wenku8Viewer.Models
             NovelName = novelName;
             NovelID = novelID;
             ImageFromWebsite = ImageHelper.LoadFromWeb(new Uri(CoverUrl));
+        }
+        public Novel()
+        {
+            
         }
     }
 }

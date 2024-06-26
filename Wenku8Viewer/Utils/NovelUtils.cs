@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AngleSharp;
@@ -16,7 +17,7 @@ namespace Wenku8Viewer.Utils
         {
             if (url is null)
                 return 0;
-            return int.Parse(url.Split('/', StringSplitOptions.RemoveEmptyEntries)[1][0..^4]);
+            return int.Parse(url.Split('/', StringSplitOptions.RemoveEmptyEntries).Last()[0..^4]);
         }
 
         public static async Task<Novel> GetNovelDetails(
