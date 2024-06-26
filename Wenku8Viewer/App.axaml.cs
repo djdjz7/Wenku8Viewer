@@ -39,9 +39,10 @@ public partial class App : Application
                 if (topLevel is not null)
                 {
                     Static.StorageProvider = topLevel.StorageProvider;
-                    topLevel.BackRequested += (_, _) =>
+                    topLevel.BackRequested += (_, e) =>
                     {
                         _mainWindowViewModel?.NavigateBackCommand.Execute();
+                        e.Handled = true;
                     };
                 }
             };
