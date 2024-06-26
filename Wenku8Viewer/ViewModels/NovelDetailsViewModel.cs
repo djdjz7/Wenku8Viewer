@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using AngleSharp;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Wenku8Viewer.Models;
 using Wenku8Viewer.Utils;
 
@@ -30,24 +31,15 @@ public class NovelDetailsViewModel : ViewModelBase, IRoutableViewModel
         FavoriteCommand = ReactiveCommand.Create(Favorite);
     }
 
-    private Novel _currentNovel = null!;
     private IBrowsingContext _browsingContext;
+    public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
+    public IScreen HostScreen { get; }
     public ReactiveCommand<string, Unit> OpenChapterReaderCommand { get; set; }
     public ReactiveCommand<Unit, Unit> DownloadCommand { get; set; }
     public ReactiveCommand<Unit, Unit> FavoriteCommand { get; set; }
-    public Novel CurrentNovel
-    {
-        get => _currentNovel;
-        set => this.RaiseAndSetIfChanged(ref _currentNovel, value);
-    }
-    public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
-    public IScreen HostScreen { get; }
-    private List<Volume>? _novelVolumeList;
-    public List<Volume> NovelVolumeList
-    {
-        get => _novelVolumeList ??= new List<Volume>();
-        set => this.RaiseAndSetIfChanged(ref _novelVolumeList, value);
-    }
+    [Reactive] public Novel CurrentNovel { get; set; }
+
+    [Reactive] public List<Volume>? NovelVolumeList { get; set; }
 
     public async void OnLoaded()
     {
@@ -63,7 +55,7 @@ public class NovelDetailsViewModel : ViewModelBase, IRoutableViewModel
                 HostScreen,
                 _browsingContext,
                 $"https://www.wenku8.net/novel/{novelID / 1000}/{novelID}/{chapterUrl}",
-                NovelVolumeList
+                NovelVolumeList ?? []
             )
         );
     }

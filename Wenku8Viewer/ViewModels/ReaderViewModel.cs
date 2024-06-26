@@ -8,6 +8,7 @@ using Avalonia;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Wenku8Viewer.Models;
 using Wenku8Viewer.Utils;
 
@@ -56,54 +57,22 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
 
     public IScreen HostScreen { get; }
     private IBrowsingContext _browsingContext;
+    public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
+
     private Uri _chapterUrl = null!;
-    private string? _chapterContent;
-    private List<Task<Bitmap?>>? _illustrations = null;
-    private string? _chapterTitle;
-    private string? _previousUrl;
-    private string? _nextUrl;
-    private string? _previousTitle;
-    private string? _nextTitle;
     private int _currentIndex;
     private List<Chapter> _chapters;
-    private List<Volume> _volumes = null!;
 
     public Vector ScrollOffset { get; } = Vector.Zero;
-    public string? ChapterContent
-    {
-        get => _chapterContent;
-        set => this.RaiseAndSetIfChanged(ref _chapterContent, value);
-    }
-    public List<Task<Bitmap?>>? Illustrations
-    {
-        get => _illustrations;
-        set => this.RaiseAndSetIfChanged(ref _illustrations, value);
-    }
-    public string? ChapterTitle
-    {
-        get => _chapterTitle;
-        set => this.RaiseAndSetIfChanged(ref _chapterTitle, value);
-    }
-    public string? PreviousUrl
-    {
-        get => _previousUrl;
-        set => this.RaiseAndSetIfChanged(ref _previousUrl, value);
-    }
-    public string? NextUrl
-    {
-        get => _nextUrl;
-        set => this.RaiseAndSetIfChanged(ref _nextUrl, value);
-    }
-    public string? PreviousTitle
-    {
-        get => _previousTitle;
-        set => this.RaiseAndSetIfChanged(ref _previousTitle, value);
-    }
-    public string? NextTitle
-    {
-        get => _nextTitle;
-        set => this.RaiseAndSetIfChanged(ref _nextTitle, value);
-    }
+    [Reactive] public string? ChapterContent { get; set; }
+    [Reactive] public List<Task<Bitmap?>>? Illustrations { get; set; }
+    [Reactive] public string? ChapterTitle { get; set; }
+    [Reactive] public string? PreviousUrl { get; set; }
+    [Reactive] public string? NextUrl { get; set; }
+    [Reactive] public string? PreviousTitle { get; set; }
+    [Reactive] public string? NextTitle { get; set; }
+    [Reactive] public List<Volume> Volumes { get; set; }
+    [Reactive] public int CurrentIndex { get; set; }
     public int FontType
     {
         get => Static.Settings!.ReaderSettings.FontType;
@@ -128,17 +97,6 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
             }
         }
     }
-    public List<Volume> Volumes
-    {
-        get => _volumes;
-        set => this.RaiseAndSetIfChanged(ref _volumes, value);
-    }
-    public int CurrentIndex
-    {
-        get => _currentIndex;
-        set => this.RaiseAndSetIfChanged(ref _currentIndex, value);
-    }
-    public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public ReactiveCommand<Unit, Unit> SwitchPreviousCommand { get; }
     public ReactiveCommand<Unit, Unit> SwitchNextCommand { get; }
     public ReactiveCommand<string, Unit> GoToChapterCommand { get; }

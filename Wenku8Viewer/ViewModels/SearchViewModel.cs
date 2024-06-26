@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using AngleSharp;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Wenku8Viewer.Models;
 using Wenku8Viewer.Utils;
 
@@ -33,24 +34,9 @@ public class SearchViewModel : ViewModelBase, IRoutableViewModel
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public IScreen HostScreen { get; }
     private IBrowsingContext _browsingContext;
-    private string _searchContent = string.Empty;
-    private int _searchMethod = 0;
-    private ObservableCollection<Novel> _searchResults = new();
-    public string SearchContent
-    {
-        get => _searchContent;
-        set => this.RaiseAndSetIfChanged(ref _searchContent, value);
-    }
-    public int SearchMethod
-    {
-        get => _searchMethod;
-        set => this.RaiseAndSetIfChanged(ref _searchMethod, value);
-    }
-    public ObservableCollection<Novel> SearchResults
-    {
-        get => _searchResults;
-        set => this.RaiseAndSetIfChanged(ref _searchResults, value);
-    }
+    [Reactive] public string? SearchContent { get; set; }
+    [Reactive] public int SearchMethod { get; set; }
+    [Reactive] public ObservableCollection<Novel> SearchResults { get; set; }
     public ReactiveCommand<Unit, Unit> SearchCommand { get; }
     public ReactiveCommand<Novel, Unit> NavigateToNovelDetailsCommand { get; set; }
 

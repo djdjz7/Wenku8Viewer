@@ -9,6 +9,7 @@ using System.Web;
 using AngleSharp;
 using AngleSharp.Dom;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Wenku8Viewer.ViewModels;
 
@@ -29,20 +30,10 @@ public class LoginViewModel : ViewModelBase, IRoutableViewModel
     }
 
     private HttpClient _httpClient = new HttpClient();
-    private string _username = string.Empty;
-    private string _password = string.Empty;
 
-    public string Username
-    {
-        get => _username;
-        set => this.RaiseAndSetIfChanged(ref _username, value);
-    }
+    [Reactive] public string? Username{ get; set; }
 
-    public string Password
-    {
-        get => _password;
-        set => this.RaiseAndSetIfChanged(ref _password, value);
-    }
+    [Reactive] public string? Password { get; set; }
 
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public IScreen HostScreen { get; }

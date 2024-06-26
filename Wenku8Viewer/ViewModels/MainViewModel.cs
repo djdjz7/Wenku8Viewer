@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive;
 using AngleSharp;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Wenku8Viewer.Models;
 
 namespace Wenku8Viewer.ViewModels;
@@ -20,24 +21,9 @@ public class MainViewModel : ViewModelBase, IRoutableViewModel
     }
 
     private IBrowsingContext _browsingContext;
-    private ObservableCollection<Novel> _todaysHot = new();
-    private ObservableCollection<Novel> _monthlyHot = new();
-    private string _username = string.Empty;
-    public ObservableCollection<Novel> TodaysHot
-    {
-        get => _todaysHot;
-        set => this.RaiseAndSetIfChanged(ref _todaysHot, value);
-    }
-    public ObservableCollection<Novel> MonthlyHot
-    {
-        get => _monthlyHot;
-        set => this.RaiseAndSetIfChanged(ref _monthlyHot, value);
-    }
-    public string Username
-    {
-        get => _username;
-        set => this.RaiseAndSetIfChanged(ref _username, value);
-    }
+    [Reactive] public ObservableCollection<Novel>? TodaysHot { get; set; }
+    [Reactive] public ObservableCollection<Novel>? MonthlyHot { get; set; }
+    [Reactive] public string? Username { get; set; }
 
     public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
     public IScreen HostScreen { get; }
