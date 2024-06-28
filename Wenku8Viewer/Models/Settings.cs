@@ -21,5 +21,5 @@ public class ReaderSettings
 public class Settings
 {
     public ReaderSettings ReaderSettings { get; set; } = new ReaderSettings();
-    public List<FavoriteNovelEntry>? FavoriteNovels { get; set; }
+    // public List<FavoriteNovelEntry>? FavoriteNovels { get; set; }
 }

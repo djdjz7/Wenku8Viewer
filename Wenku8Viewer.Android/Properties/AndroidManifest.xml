@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" package="com.djdjz7.wk8v">
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:label="Wenku8Viewer" android:icon="@drawable/Icon" />
+	<uses-permission android:name="android.permission.internal" />
+	<application android:label="Wenku8Viewer" android:icon="@drawable/Icon" android:requestLegacyExternalStorage="true" />
 </manifest>

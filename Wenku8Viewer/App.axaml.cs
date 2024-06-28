@@ -1,9 +1,9 @@
-﻿using System.IO;
-using System.Text.Json;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using System.IO;
+using System.Text.Json;
 using Wenku8Viewer.Models;
 using Wenku8Viewer.ViewModels;
 using Wenku8Viewer.Views;
@@ -24,7 +24,6 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.Exit += Desktop_Exit;
             var mainWindow = new MainWindow { DataContext = _mainWindowViewModel };
             desktop.MainWindow = mainWindow;
             Static.StorageProvider = TopLevel.GetTopLevel(mainWindow)?.StorageProvider;
@@ -33,7 +32,7 @@ public partial class App : Application
         {
             var mainView = new MainViewPlatform { DataContext = _mainWindowViewModel };
             singleViewPlatform.MainView = mainView;
-            mainView.Loaded += (_, _) =>
+            mainView.Loaded += async (_, _) =>
             {
                 var topLevel = TopLevel.GetTopLevel(mainView);
                 if (topLevel is not null)
@@ -52,29 +51,14 @@ public partial class App : Application
             var configContent = File.ReadAllText("Settings.json");
             var config = JsonSerializer.Deserialize<Settings>(configContent);
             if (config is not null)
-                Static.Settings = config;
+                Static._settings = config;
             else
-                Static.Settings = new Settings();
+                Static._settings = new Settings();
         }
         catch
         {
             Static.Settings = new Settings();
         }
         base.OnFrameworkInitializationCompleted();
-    }
-
-    private void Desktop_Exit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
-    {
-        try
-        {
-            File.WriteAllText(
-                "Settings.json",
-                JsonSerializer.Serialize(
-                    Static.Settings,
-                    new JsonSerializerOptions { WriteIndented = true }
-                )
-            );
-        }
-        catch { }
     }
 }

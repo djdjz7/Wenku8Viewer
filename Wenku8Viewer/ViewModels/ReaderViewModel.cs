@@ -99,6 +99,7 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
             {
                 Static.Settings.ReaderSettings.FontType = value;
                 this.RaisePropertyChanged(nameof(FontType));
+                Static.Settings = Static.Settings;
             }
         }
     }
@@ -111,6 +112,7 @@ public class ReaderViewModel : ViewModelBase, IRoutableViewModel
             {
                 Static.Settings.ReaderSettings.FontSize = value;
                 this.RaisePropertyChanged(nameof(FontSize));
+                Static.Settings = Static.Settings;
             }
         }
     }
