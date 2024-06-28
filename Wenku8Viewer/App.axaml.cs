@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using System.IO;
 using System.Text.Json;
 using Wenku8Viewer.Models;
+using Wenku8Viewer.Utils;
 using Wenku8Viewer.ViewModels;
 using Wenku8Viewer.Views;
 
@@ -25,6 +26,7 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var mainWindow = new MainWindow { DataContext = _mainWindowViewModel };
+            mainWindow.Loaded += MainLoaded;
             desktop.MainWindow = mainWindow;
             Static.StorageProvider = TopLevel.GetTopLevel(mainWindow)?.StorageProvider;
         }
@@ -32,33 +34,43 @@ public partial class App : Application
         {
             var mainView = new MainViewPlatform { DataContext = _mainWindowViewModel };
             singleViewPlatform.MainView = mainView;
-            mainView.Loaded += async (_, _) =>
+            mainView.Loaded += MainLoaded;
+        }
+        
+        base.OnFrameworkInitializationCompleted();
+    }
+
+    public void MainLoaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        var topLevel = TopLevel.GetTopLevel(sender as Visual);
+        if (topLevel is not null)
+        {
+            Static.StorageProvider = topLevel.StorageProvider;
+            topLevel.BackRequested += (_, e) =>
             {
-                var topLevel = TopLevel.GetTopLevel(mainView);
-                if (topLevel is not null)
-                {
-                    Static.StorageProvider = topLevel.StorageProvider;
-                    topLevel.BackRequested += (_, e) =>
-                    {
-                        _mainWindowViewModel?.NavigateBackCommand.Execute();
-                        e.Handled = true;
-                    };
-                }
+                _mainWindowViewModel?.NavigateBackCommand.Execute();
+                e.Handled = true;
             };
         }
         try
         {
-            var configContent = File.ReadAllText("Settings.json");
-            var config = JsonSerializer.Deserialize<Settings>(configContent);
-            if (config is not null)
-                Static._settings = config;
+            var path = StorageHelper.GetSettingsPath();
+            if (path is not null)
+            {
+
+                var configContent = File.ReadAllText(path);
+                var config = JsonSerializer.Deserialize<Settings>(configContent);
+                if (config is not null)
+                    Static._settings = config;
+                else
+                    Static._settings = new Settings();
+            }
             else
                 Static._settings = new Settings();
         }
         catch
         {
-            Static.Settings = new Settings();
+            Static._settings = new Settings();
         }
-        base.OnFrameworkInitializationCompleted();
     }
 }

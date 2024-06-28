@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.Json;
 using Avalonia.Platform.Storage;
 using Wenku8Viewer.Models;
+using Wenku8Viewer.Utils;
 
 namespace Wenku8Viewer
 {
@@ -15,32 +16,15 @@ namespace Wenku8Viewer
             set
             {
                 _settings = value;
-                if (OperatingSystem.IsWindows())
-                {
+                var path = StorageHelper.GetSettingsPath();
+                if (path is not null && value is not null)
                     File.WriteAllText(
-                        "Settings.json",
+                        path,
                         JsonSerializer.Serialize(
                             Static.Settings,
                             new JsonSerializerOptions { WriteIndented = true }
                         )
                     );
-                }
-                if (OperatingSystem.IsAndroid())
-                {
-                    var path = Static
-                        .StorageProvider?.TryGetWellKnownFolderAsync(WellKnownFolder.Documents)
-                        .Result;
-                    if (path is not null)
-                    {
-                        File.WriteAllText(
-                            Path.Combine(path.Path.ToString()[8..], "Settings.json"),
-                            JsonSerializer.Serialize(
-                                Static.Settings,
-                                new JsonSerializerOptions { WriteIndented = true }
-                            )
-                        );
-                    }
-                }
             }
         }
         public static IStorageProvider? StorageProvider { get; set; }
